@@ -21,7 +21,7 @@ class evol_eql_layer(nn.Module):
 
     def forward(self, x):
         # we create an output to store: 
-        output = torch.zeros_like(x.shape[0], self.out_F)
+        output = torch.zeros((x.shape[0], self.out_F))
         # we itereate through the block list and add the output of each block. 
         for block in self.b_list:
             output += block(x)
@@ -40,8 +40,12 @@ class evol_eql_layer(nn.Module):
             block_out.append(block.to_string(named_variables, threshold=threshold))
 
 
-        result = [reduce(lambda x, y: x+y, [b_out for b_out in block_out])
-                  for j in range(self.out_F)]
+        result = []
+        for i in range(self.out_F):
+            res_per_block = []
+            for block in block_out:
+                res_per_block += [block[i]]
+            result.append(res_per_block)
         return result
         
 if __name__ == '__main__':

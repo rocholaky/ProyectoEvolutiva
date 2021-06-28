@@ -98,13 +98,13 @@ class general_Module(nn.Module):
             named_variables = [f"x_{j}" for j in range(self.nb_variables)]
 
         # intermediate expression: output of the first layer without activation function
-        intermediate_expression = self.sin_module.to_string(named_variables, threshold=threshold)
+        intermediate_expression = self.first_layer.to_string(named_variables, threshold=threshold)
         intermediate_expression = [exp if exp != '' else '0' for exp in intermediate_expression]
         # first output of the first layer with activation function:
         first_out_expression = [f"{self.expression}({element_out})" for element_out in intermediate_expression]
 
         # final equation:
-        final_expression = self.sin_output.to_string(first_out_expression, threshold=threshold)
+        final_expression = self.second_layer.to_string(first_out_expression, threshold=threshold)
         return final_expression
 
 
