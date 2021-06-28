@@ -21,7 +21,7 @@ For L0 regularized methods:
 import torch
 from torch import nn
 import numpy as np
-
+from torch.nn.modules import linear
 
 
 #####   Modules for L1, L2, L1L2 regularization.
@@ -67,6 +67,45 @@ class linear_Module(nn.Module):
                     expresion[j] += f"+{bias[j]:.3f}"
         return expresion
 
+
+## general module: a module that can have any function wanted as long as it is continuos:
+class general_Module(nn.Module):
+    def __init__(self, in_features, function, expression, n_units, out_features, bias=False):
+        '''
+        in_features: the dimension of the in features to the module. 
+        function: pytorch functin to use between the two layers.
+        n_units: output of the first layer
+        out_features: out_features of the Module
+        '''
+        super().__init__()
+        self.nb_variables = in_features
+        self.out_f = out_features
+        self.expression = expression
+
+        #we initialize a first linear module:
+        self.first_layer = linear_Module(self.nb_variables, n_units, bias)
+        # we define the function that connects both of them:
+        self.function = function
+        # initialization of the second linear Module:
+        self.second_layer = linear_Module(n_units, out_features, bias=False)
+    
+    def forward(self, x):
+        return self.second_layer(self.function(self.first_layer(x)))
+    
+    def to_string(self, input_string=None, threshold=1e-4):
+        named_variables = input_string
+        if input_string is None:
+            named_variables = [f"x_{j}" for j in range(self.nb_variables)]
+
+        # intermediate expression: output of the first layer without activation function
+        intermediate_expression = self.sin_module.to_string(named_variables, threshold=threshold)
+        intermediate_expression = [exp if exp != '' else '0' for exp in intermediate_expression]
+        # first output of the first layer with activation function:
+        first_out_expression = [f"{self.expression}({element_out})" for element_out in intermediate_expression]
+
+        # final equation:
+        final_expression = self.sin_output.to_string(first_out_expression, threshold=threshold)
+        return final_expression
 
 
 
