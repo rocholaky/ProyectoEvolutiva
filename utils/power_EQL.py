@@ -1,7 +1,7 @@
 # Todo: Generar función to_string: que vuelva una red un string. 
 import torch
 from torch import nn
-from utils.network_parts import *
+from network_parts import *
 
 
 class power_EQL_layer(nn.Module):

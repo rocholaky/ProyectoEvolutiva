@@ -75,12 +75,4 @@ class eql_gram_gen:
 
 
 
-f_list = [function_class_eql.fn_creator(torch.exp, "exp"), 
-           function_class_eql.fn_creator(torch.sin, "sin"), 
-           function_class_eql.power_fn_creator()]               
-gram_evol = eql_gram_gen(3, f_list)
-decoded_gram = gram_evol.decode_gramar("21123425")
-print(decoded_gram)
-net = gram_evol.network_builder(decoded_gram)
-print(net.to_string())
-print(net.forward(torch.Tensor(np.array([[1, 2, 3]]))))      
+  
