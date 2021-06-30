@@ -1,5 +1,5 @@
 '''
-IN this class lets you create functions that can be used to connect with the EQL network for evolutionary 
+This class lets you create functions that can be used to connect with the EQL network for evolutionary
 Algorithm creation. 
 '''
 import evolutionary_EQL

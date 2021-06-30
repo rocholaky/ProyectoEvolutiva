@@ -42,6 +42,8 @@ class eql_gram_gen:
                 repeated_structure = structure[0:2]
                 structure = repeated_structure*(amount_rep-1) + structure
                 structure_len = len(structure)
+                dec_grammar = dec_grammar[1:]
+                max_dec_index = len(dec_grammar)
 
             elif structure[index] == "<b_out":
                 law_value = picked_law[law_value_index]

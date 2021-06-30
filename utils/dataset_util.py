@@ -1,5 +1,6 @@
 from torch.utils.data import Dataset
 import numpy as np
+import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 
 
@@ -52,5 +53,9 @@ if __name__ == '__main__':
     item = dataset.__getitem__([0, 1, 2])
     print(item[0])
     print(item[1])
-
+    print(dataset.x_dataset.shape)
+    fig, axs = plt.subplots(2,1)
+    axs[0].plot(1,1,dataset.x_dataset[0:200,0])
+    axs[1].plot(2,1,dataset.x_dataset[0:200,1])
+    plt.show()
 

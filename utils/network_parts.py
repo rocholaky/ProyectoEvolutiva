@@ -122,7 +122,9 @@ class power_Module(nn.Module):
 
     def forward(self, x):
         x = x.double()
-        x = torch.where(x == 0, 0.0001, x).float()
+        y = torch.ones(x.shape)
+        y = y.double()
+        x = torch.where(x == 0, y*0.0001, x).float()
         abs_x = torch.abs(x)
         out = self.power_output(torch.exp(self.power_module(torch.log(abs_x))))
         return out
@@ -152,7 +154,7 @@ class sin_Module(nn.Module):
         self.nb_variables = in_features
         # we initialize a linear unit:
         self.sin_module = linear_Module(in_features, n_units, bias=True)
-        # we use a linera layer to get the weighted sum of le sin_module:
+        # we use a linear layer to get the weighted sum of le sin_module:
         self.sin_output = linear_Module(n_units, out_features, bias=False)
 
     def forward(self, x):
@@ -200,6 +202,8 @@ if __name__ == '__main__':
     nb_variables = 2
     power_unit = linear_Module(nb_variables, 2,1)
     named_variables = [f"x_{j}" for j in range(nb_variables)]
-    LM = linear_Module(2,1, bias=True)
+    LM = linear_Module(2,2, bias=True)
     input = torch.reshape(torch.arange(0, 16), (8, 2)).type(torch.float32)
     print(LM.to_string(named_variables))
+    #print(power_unit.to_string(named_variables))
+
