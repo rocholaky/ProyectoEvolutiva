@@ -21,10 +21,12 @@ class evol_eql_layer(nn.Module):
 
 
 
-    def forward(self, x):
-        # we create an output to store: 
-        output = torch.zeros((x.shape[0], self.out_F)).cuda()
-        # we itereate through the block list and add the output of each block. 
+
+    def forward(self, x, device):
+        # we create an output to store:
+        output = torch.zeros((x.shape[0], self.out_F)).to(device)
+
+        # we itereate through the block list and add the output of each block.
         for block in self.b_list:
             output += block(x)
         # return the output.

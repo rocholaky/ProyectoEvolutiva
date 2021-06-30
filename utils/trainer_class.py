@@ -18,13 +18,13 @@ class net_trainer:
     def __init__(self, dataset, network, reg=None):
         self.dt_set = dataset
         self.model = network
-        device = torch.device("cuda:0")
-        self.model.to(device)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.model.to(self.device)
         self.regularizer= reg
 
     def print_result(self, threshold=1e-4):
         print(self.model.cpu().to_string(threshold=threshold))
-        self.model.cuda()
+        self.model.to(self.device)
 
 
     def simple_train_network_algorithm(self,  epochs, dataLoad,criterion, optimizer, lamda=0.1, prune=False, threshold=1e-4, do_shuffle=True):
@@ -50,10 +50,11 @@ class net_trainer:
             cost_r_per_epoch = []
 
             for data in dataLoad: # we get the batch
+
                 # we get the real values:
-                labels = data[1].cuda().float()
+                labels = data[1].to(self.device).float()
                 # we get the input data
-                inputs = data[0].cuda().float()
+                inputs = data[0].to(self.device).float()
 
                 # we get the loss of the model and update its variables with BP:
                 loss, cost_f, cost_r = self.calculate_loss_optimize_variables(inputs, labels, criterion, optimizer, lamda, self.regularizer, prune, threshold)
@@ -100,7 +101,7 @@ class net_trainer:
         cost_f = 0
         cost_r = 0
         # we get the prediction of the network:
-        y_pred = self.model(inputs)
+        y_pred = self.model(inputs, self.device)
         # we compute the loss with regularization
         if reg is None:
             loss = criterion(y_pred, labels)
@@ -118,7 +119,7 @@ class net_trainer:
         with torch.no_grad():
             if prune:
                 for p in self.model.parameters():
-                    mask = torch.where(torch.abs(p) < threshold, 0, 1)
+                    mask = torch.where(torch.abs(p) < threshold, torch.zeros(p.shape), torch.ones(p.shape))
                     p.grad = p.grad*mask
                     p.data = p.data*mask
 

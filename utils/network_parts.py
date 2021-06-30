@@ -122,9 +122,8 @@ class power_Module(nn.Module):
 
     def forward(self, x):
         x = x.double()
-        y = torch.ones(x.shape)
-        y = y.double()
-        x = torch.where(x == 0, 0.0001, x).float()
+        y = torch.ones(x.shape).double()
+        x = torch.where(x == 0, y*0.0001, x).float()
         abs_x = torch.abs(x)
         out = self.power_output(torch.exp(self.power_module(torch.log(abs_x))))
         return out
