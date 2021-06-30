@@ -18,13 +18,13 @@ class evol_eql_layer(nn.Module):
 
         # layer function list: 
         self.b_list = nn.ModuleList(block_list)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 
-
-    def forward(self, x, device):
+    def forward(self, x):
         # we create an output to store:
-        output = torch.zeros((x.shape[0], self.out_F)).to(device)
+        output = torch.zeros((x.shape[0], self.out_F)).to(self.device)
 
         # we itereate through the block list and add the output of each block.
         for block in self.b_list:

@@ -101,7 +101,7 @@ class net_trainer:
         cost_f = 0
         cost_r = 0
         # we get the prediction of the network:
-        y_pred = self.model(inputs, self.device)
+        y_pred = self.model(inputs)
         # we compute the loss with regularization
         if reg is None:
             loss = criterion(y_pred, labels)
