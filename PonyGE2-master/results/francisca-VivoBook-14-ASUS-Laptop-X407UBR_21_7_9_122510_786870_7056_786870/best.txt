@@ -1,0 +1,13 @@
+Generation:
+1
+
+Phenotype:
+plog(np.sin(psqrt(x[0])))
+
+Genotype:
+[8, 5, 4, 9, 4, 0, 9, 3, 3, 7, 1, 6]
+Tree:
+None
+
+Fitness:
+0.19114339884472695
