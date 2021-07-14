@@ -4,7 +4,6 @@ from representation.individual import Individual
 sys.path.append("C:\\Users\\rocho\\OneDrive\\Documentos\\Universidad\\Computacion_evolutiva\\ProyectoEvolutiva\\utils")
 import gram_evol
 from algorithm.parameters import params
-from algorithm.mapper import mapper
 
 class EQL_individual(Individual):
     '''

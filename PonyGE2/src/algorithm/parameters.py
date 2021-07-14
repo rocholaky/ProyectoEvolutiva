@@ -1,6 +1,5 @@
 from multiprocessing import cpu_count
 from os import path
-import os
 from socket import gethostname
 
 hostname = gethostname().split('.')
@@ -26,15 +25,15 @@ params = {
         'RUNS': 1,
 
         # Class of problem
-        'FITNESS_FUNCTION': "supervised_learning.neural_net",
+        'FITNESS_FUNCTION': "supervised_learning.regression",
 
         # Select problem dataset
-        'DATASET_TRAIN': os.getcwd()+"\\PonyGE2-master\\datasets\\Custom_fran\\Train.txt",
-        'DATASET_TEST': os.getcwd()+"\\PonyGE2-master\\datasets\\Custom_fran\\Test.txt",
-        'DATASET_DELIMITER': "\t",
+        'DATASET_TRAIN': "Vladislavleva4\\Train.txt",
+        'DATASET_TEST': None,
+        'DATASET_DELIMITER': None,
 
         # Set grammar file
-        'GRAMMAR_FILE': os.getcwd()+"\\PonyGE2-master\\grammars\\supervised_learning\\NeuralNets.bnf",
+        'GRAMMAR_FILE': "supervised_learning/Vladislavleva4.bnf",
 
         # Set the number of depths permutations are calculated for
         # (starting from the minimum path of the grammar).
@@ -54,15 +53,15 @@ params = {
         'MAX_TREE_DEPTH': 90,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
                                # INCREASE AT YOUR OWN RISK.
         'MAX_TREE_NODES': None,
-        'CODON_SIZE': 9,
+        'CODON_SIZE': 100000,
         'MAX_GENOME_LENGTH': None,
-        'MAX_WRAPS': 10000,
+        'MAX_WRAPS': 0,
 
         # INITIALISATION
         # Set initialisation operator.
-        'INITIALISATION': "operators.initialisation.uniform_genome",
+        'INITIALISATION': "operators.initialisation.PI_grow",
         # Set the maximum geneome length for initialisation.
-        'INIT_GENOME_LENGTH': 10,
+        'INIT_GENOME_LENGTH': 200,
         # Set the maximum tree depth for initialisation.
         'MAX_INIT_TREE_DEPTH': 10,
         # Set the minimum tree depth for initialisation.
@@ -116,7 +115,7 @@ params = {
         # PRINTING
         # Use this to print out basic statistics for each generation to the
         # command line.
-        'VERBOSE': True,
+        'VERBOSE': False,
         # Use this to prevent anything being printed to the command line.
         'SILENT': False,
 
@@ -194,7 +193,6 @@ params = {
 def load_params(file_name):
     """
     Load in a params text file and set the params dictionary directly.
-
     :param file_name: The name/location of a parameters file.
     :return: Nothing.
     """
@@ -240,7 +238,6 @@ def set_params(command_line_args, create_files=True):
     seeds, elite size). Sets the correct imports given command line
     arguments. Sets correct grammar file and fitness function. Also
     initialises save folders and tracker lists in utilities.trackers.
-
     :param command_line_args: Command line arguments specified by the user.
     :return: Nothing.
     """
@@ -342,7 +339,7 @@ def set_params(command_line_args, create_files=True):
                     raise Exception(s)
 
         # Parse grammar file and set grammar class.
-        params['BNF_GRAMMAR'] = grammar.Grammar(path.join("..", "grammars",
+        params['BNF_GRAMMAR'] = grammar.Grammar(path.join("PonyGE2", "grammars",
                                                 params['GRAMMAR_FILE']))
 
         # Population loading for seeding runs (if specified)
