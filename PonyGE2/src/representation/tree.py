@@ -1,4 +1,4 @@
-from algorithm.parameters import params
+from PonyGE2.src.algorithm.parameters import params
 
 
 class Tree:

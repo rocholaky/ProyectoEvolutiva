@@ -2,7 +2,7 @@ from math import floor
 from re import match, finditer, DOTALL, MULTILINE
 from sys import maxsize
 
-from algorithm.parameters import params
+from PonyGE2.src.algorithm.parameters import params
 
 
 class Grammar(object):

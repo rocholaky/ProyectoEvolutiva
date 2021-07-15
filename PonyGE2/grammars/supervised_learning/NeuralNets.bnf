@@ -1,8 +1,9 @@
-<start>  ::= <nblock><fn><neurons><bout><out>
+<start>  ::= <nblock><fn><neurons><bout><strc>
 <fn>  ::= blockExp | blockSin | blockPow
-<layer>  ::= <nblock><fn><neurons><bout>
-<nblock>  ::= 0 | 1 | 2 | 3
-<neurons>  ::= 0 | 1 | 2 | 3
-<bout>  ::= <out> | <layer>
+<layer>  ::= <nblock><fn><neurons><bout><strc>
+<nblock>  ::= 1 | 2 | 3 | 4
+<neurons>  ::= 1 | 2 | 3 | 4
+<bout>  ::= 1 | 2 | 3 | 4
+<strc>  ::= <out> | <layer>
 <out>  ::= 1
 

@@ -1,6 +1,6 @@
 import numpy as np
-from algorithm.mapper import mapper
-from algorithm.parameters import params
+from PonyGE2.src.algorithm.mapper import mapper
+from PonyGE2.src.algorithm.parameters import params
 
 class Individual(object):
     """

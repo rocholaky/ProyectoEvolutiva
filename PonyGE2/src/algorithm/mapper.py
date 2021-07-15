@@ -1,9 +1,9 @@
 from collections import deque
 import numpy as np
 
-from algorithm.parameters import params
-from representation.tree import Tree
-from utilities.representation.python_filter import python_filter
+from PonyGE2.src.algorithm.parameters import params
+from PonyGE2.src.representation.tree import Tree
+from PonyGE2.src.utilities.representation.python_filter import python_filter
 
 
 def mapper(genome, tree):
