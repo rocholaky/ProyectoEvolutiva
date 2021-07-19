@@ -20,3 +20,19 @@ class power_fn_creator:
     
     def build(self, in_f, neurons, out_f, bias=False):
         return self.pw(in_f, neurons, out_f)
+
+
+class sin_fn_creator:
+    def __init__(self) -> None:
+        self.sin = network_parts.sin_Module
+
+    def build(self, in_f, neurons, out_f, bias=False):
+        return self.sin(in_f, neurons, out_f)
+
+
+class exp_fn_creator:
+    def __init__(self) -> None:
+        self.ex = network_parts.exp_Module
+
+    def build(self, in_f, neurons, out_f, bias=False):
+        return self.ex(in_f, neurons, out_f)

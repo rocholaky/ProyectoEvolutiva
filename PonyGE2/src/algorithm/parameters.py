@@ -186,7 +186,10 @@ params = {
         
         # OTHER
         # Set machine name (useful for doing multiple runs)
-        'MACHINE': machine_name
+        'MACHINE': machine_name,
+
+        ### PROYECTO EVOLUTIVA ###
+        'INIT_FEATURES': 2
 }
 
 

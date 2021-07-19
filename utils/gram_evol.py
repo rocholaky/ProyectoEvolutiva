@@ -7,6 +7,7 @@ import function_class_eql
 import torch
 from network_parts import power_Module
 import numpy as np
+
 class eql_gram_gen:
     def __init__(self, init_f, list_f) -> None:
         # we define the rules that define the decoding of the grammar:
@@ -72,6 +73,7 @@ class eql_gram_gen:
             return output_l[0]
         else:
             return output_l
+
 
 
 

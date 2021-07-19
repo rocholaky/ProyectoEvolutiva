@@ -39,23 +39,22 @@ class EQL_individual(Individual):
 class network_generator:
 
     def __init__(self,grammar) -> None:
-        #self.init_features = Todo: Find how to extract it from params
-        self.init_features = 2
+        self.init_features = params['INIT_FEATURES']
         self.start_rule = grammar.start_rule
         self.rules = grammar.rules
-        self.max_wraps = 30
+        self.max_wraps = params['MAX_WRAPS']
 
     def __call__(self, genome) -> evol_eql_layer:
         starting_point = self.start_rule['symbol']
         unexpanded_symbols = deque()
         unexpanded_symbols.append(starting_point)
-        wraps = 0
+        wraps = -1
         used_input = 0
         input_layer = self.init_features
         n_input = len(genome)
         layer = []
         while (wraps < self.max_wraps) and unexpanded_symbols:
-                # agregar condicion para que los indviduos sean invalidos
+                # TODO: agregar condicion para que los indviduos sean invalidos
                 if used_input % n_input == 0 and \
                         used_input > 0 and \
                         len(unexpanded_symbols) != 0:
@@ -70,7 +69,6 @@ class network_generator:
 
                 current_production = int(genome[used_input%n_input])%no_choices
                 used_input += 1
-
                 selected_choice = list_of_choices[current_production]['choice']
                 index = 0
                 intermediate_structure = []
@@ -85,7 +83,7 @@ class network_generator:
                         used_input += 1
                         n_blocks = int(list_of_choices[current_production]['choice'][0]["symbol"])
                         selected_choice = selected_choice[0:2]*(n_blocks-1) + selected_choice
-                    # Todo: del choice sacar el simbolo
+                    # TODO: del choice sacar el simbolo
                     else: 
                         if prod_symbol == "<bout>":
                             current_production = int(genome[used_input%n_input])%no_choices
@@ -112,17 +110,18 @@ class network_generator:
                                     current_production = int(genome[used_input%n_input])%no_choices
                                     previous_layer = layer.pop()
                                     previous_layer[-1] = int(list_of_choices[current_production]['choice'][0]["symbol"])
-                                    layer.append(previous_layer)   
+                                    layer.append(previous_layer)
                                     print(layer)                                
                                     return layer
                         index+=1
 
 
         
-        # agregar if de que si pasó los wraps es inválido
-        # pasar de layers a red.
-        
-        return False
+        #TODO: agregar if de que si pasó los wraps es inválido
+
+        print('Fenotipo inválido, se alcanzó num máximo de wraps.')
+        return None
+
                 
                         
 

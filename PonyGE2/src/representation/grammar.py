@@ -232,6 +232,8 @@ class Grammar(object):
                     tmp_productions.append({"choice": tmp_production,
                                             "recursive": False,
                                             "NT_kids": False})
+                # Cada choice posee [{symbol, type: 'NT'}], recursive, NT_kids
+                #                 o [{symbol, type: 'T', min_steps, recursive}], recursive, NT_kids
 
                 if not rule.group('rulename') in self.rules:
                     # Add new production rule to the rules dictionary if not
