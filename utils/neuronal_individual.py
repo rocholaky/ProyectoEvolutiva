@@ -119,7 +119,6 @@ class network_generator:
         
         #TODO: agregar if de que si pasó los wraps es inválido
 
-        print('Fenotipo inválido, se alcanzó num máximo de wraps.')
         return None
 
                 

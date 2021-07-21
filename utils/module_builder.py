@@ -5,6 +5,7 @@ import evolutionary_EQL
 
 def net_builder(layers):
     output_l = list()
+    in_f = layers[0][0]
     for layer in layers:
         input = layer[0]
         b_list = layer[1]
@@ -14,4 +15,4 @@ def net_builder(layers):
     if len(output_l) == 1:
         return output_l[0]
     else:
-        return output_l
+        return evolutionary_EQL.evol_eql_nn(in_f, output_l, b_out)

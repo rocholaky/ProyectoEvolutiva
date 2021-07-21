@@ -27,5 +27,6 @@ def mane():
 
 
 if __name__ == "__main__":
+    print(['--parameters', '../parameters/neural_params.txt'])
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself
     mane()

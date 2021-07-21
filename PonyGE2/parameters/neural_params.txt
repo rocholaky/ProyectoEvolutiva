@@ -1,16 +1,16 @@
-POPULATION_SIZE:        500
+POPULATION_SIZE:        10
 GENERATIONS:            50
-FITNESS_FUNCTION:       supervised_learning.regression
+FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
 DATASET_TRAIN:          Vladislavleva4\\Train.txt
 DATASET_TEST:           None
 
-GRAMMAR_FILE:           supervised_learning/Vladislavleva4.bnf
+GRAMMAR_FILE:           supervised_learning/NeuralNets.bnf
 CODON_SIZE:             100000
 MAX_WRAPS:              30 # 0
 
 # initialization
-INITIALISATION:         operators.initialisation.PI_grow
+INITIALISATION:         operators.initialisation.uniform_genome
 INIT_GENOME_LENGTH:     200
 
 # selection

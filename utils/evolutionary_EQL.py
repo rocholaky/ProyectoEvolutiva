@@ -51,6 +51,60 @@ class evol_eql_layer(nn.Module):
                 res_per_block += [block[i]]
             result.append(res_per_block)
         return result
+
+
+# network of evolutionary eql layers:
+class evol_eql_nn(nn.Module):
+    def __init__(self, in_features, layer_list, out_features):
+        super().__init__()
+        # definition of in_features and out_features:
+        self.in_F = in_features
+        self.out_F = out_features
+
+        # layer list:
+        self.layers = nn.ModuleList(layer_list)
+
+        # set the device: 
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+
+    def forward(self, x):
+        for layer in self.layer_list:
+            x = layer(x)
+        return x
+
+    def to_string(self, threshold=1e-4, input_string=None):
+        input_string = None
+        for layer in self.layer_list:
+            input_string = layer.to_string(threshold,input_string=input_string)
+        return input_string
+
+
+# network container, here a population of networks is stored in order to train in parallel:
+class evol_eql_container(nn.Module):
+    def __init__(self, list_of_ind, n_outputs):
+        self.ind = nn.Module(list_of_ind)
+        self.n_out = n_outputs
+        # set the device: 
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+
+    def forward(self, x):
+        # we create an output to store:
+        output = torch.zeros((x.shape[0], self.out_F)).to(self.device)
+        for ind in self.ind:
+            output += ind(x)
+        return output
+
+    def to_string(self, threshold=1e-4, input_string=None):
+        output_string = []
+        for ind in self.list_of_ind:
+            output_string.append(ind.to_string(threshold))
+
+
+
+
+
         
 if __name__ == '__main__':
     in_features = 2
