@@ -1,5 +1,5 @@
 from multiprocessing import cpu_count
-from os import path
+from os import path, getcwd
 from socket import gethostname
 
 hostname = gethostname().split('.')
@@ -200,6 +200,7 @@ def load_params(file_name):
     :return: Nothing.
     """
 
+
     try:
         open(file_name, "r")
     except FileNotFoundError:
@@ -265,7 +266,7 @@ def set_params(command_line_args, create_files=True):
     # LOAD PARAMETERS FILE
     # NOTE that the parameters file overwrites all previously set parameters.
     if 'PARAMETERS' in cmd_args:
-        load_params(path.join("..", "parameters", cmd_args['PARAMETERS']))
+        load_params(path.join(getcwd(), "PonyGE2\\parameters", cmd_args['PARAMETERS']))
 
     # Join original params dictionary with command line specified arguments.
     # NOTE that command line arguments overwrite all previously set parameters.

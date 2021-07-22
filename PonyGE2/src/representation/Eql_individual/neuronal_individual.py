@@ -1,7 +1,10 @@
 from collections import deque
-from PonyGE2.src.representation.individual import Individual
-from PonyGE2.src.algorithm.parameters import params
-from evolutionary_EQL import evol_eql_layer
+from representation.individual import Individual
+from algorithm.parameters import params
+import torch
+from representation.Eql_individual.evolutionary_EQL import evol_eql_nn
+from representation.Eql_individual.module_builder import net_builder
+
 
 
 class EQL_individual(Individual):
@@ -20,31 +23,44 @@ class EQL_individual(Individual):
         :param map_ind: A boolean flag that indicates whether or not an
         individual needs to be mapped.
         """
-        
-        self.eql_ind = net_creator(genome)
+    
+        self.phenotype = net_creator(genome)
+        self.invalid = False
+        if not self.phenotype:
+            self.invalid = True
 
         self.fitness = params["FITNESS_FUNCTION"].default_fitness
         self.runtime_error = False
         self.name = None
+        self.genome = genome
+        
 
 
     def __str__(self) -> str:
         return self.eql_ind.to_string()
 
+    def __call__(self, x):
+        x = torch.from_numpy(x)
+        return self.phenotype(x)
+
     
     def deep_copy(self):
         return self.net.deep_copy()
 
+    def set_invalid(self):
+        self.invalid = True
+
+
 
 class network_generator:
 
-    def __init__(self,grammar) -> None:
+    def __init__(self, grammar) -> None:
         self.init_features = params['INIT_FEATURES']
         self.start_rule = grammar.start_rule
         self.rules = grammar.rules
         self.max_wraps = params['MAX_WRAPS']
 
-    def __call__(self, genome) -> evol_eql_layer:
+    def __call__(self, genome) -> evol_eql_nn:
         starting_point = self.start_rule['symbol']
         unexpanded_symbols = deque()
         unexpanded_symbols.append(starting_point)
@@ -54,7 +70,6 @@ class network_generator:
         n_input = len(genome)
         layer = []
         while (wraps < self.max_wraps) and unexpanded_symbols:
-                # TODO: agregar condicion para que los indviduos sean invalidos
                 if used_input % n_input == 0 and \
                         used_input > 0 and \
                         len(unexpanded_symbols) != 0:
@@ -83,7 +98,6 @@ class network_generator:
                         used_input += 1
                         n_blocks = int(list_of_choices[current_production]['choice'][0]["symbol"])
                         selected_choice = selected_choice[0:2]*(n_blocks-1) + selected_choice
-                    # TODO: del choice sacar el simbolo
                     else: 
                         if prod_symbol == "<bout>":
                             current_production = int(genome[used_input%n_input])%no_choices
@@ -110,16 +124,11 @@ class network_generator:
                                     current_production = int(genome[used_input%n_input])%no_choices
                                     previous_layer = layer.pop()
                                     previous_layer[-1] = int(list_of_choices[current_production]['choice'][0]["symbol"])
-                                    layer.append(previous_layer)
-                                    print(layer)                                
-                                    return layer
+                                    layer.append(previous_layer)                             
+                                    return evol_eql_nn(self.init_features, net_builder(layer), previous_layer[-1])
                         index+=1
 
-
-        
-        #TODO: agregar if de que si pasó los wraps es inválido
-
-        return None
+        return False
 
                 
                         

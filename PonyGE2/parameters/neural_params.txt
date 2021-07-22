@@ -5,12 +5,12 @@ FITNESS_FUNCTION:       supervised_learning.EqlFitness
 DATASET_TRAIN:          Vladislavleva4\\Train.txt
 DATASET_TEST:           None
 
-GRAMMAR_FILE:           supervised_learning/NeuralNets.bnf
+GRAMMAR_FILE:           supervised_learning\\NeuralNets.bnf
 CODON_SIZE:             100000
 MAX_WRAPS:              30 # 0
 
 # initialization
-INITIALISATION:         operators.initialisation.uniform_genome
+INITIALISATION:         operators.initialisation.uniform_eql
 INIT_GENOME_LENGTH:     200
 
 # selection

@@ -2,8 +2,8 @@
 This class lets you create functions that can be used to connect with the EQL network for evolutionary
 Algorithm creation. 
 '''
-import evolutionary_EQL
-import network_parts
+import representation.Eql_individual.evolutionary_EQL as evolutionary_EQL
+import representation.Eql_individual.network_parts as network_parts
 
 class fn_creator:
     def __init__(self, torch_fn, expression) -> None:
