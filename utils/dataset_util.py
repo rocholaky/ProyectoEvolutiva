@@ -27,7 +27,7 @@ class AutoGenerating_dataset(Dataset):
         # we set the function we want to find
         self.function = function
         # numpy array of the data:
-        size = (n_points, 1)
+        size = (n_points, 1)#self.n_variables)
         self.x_dataset = np.hstack([np.random.uniform(bound[0], bound[1], size) for bound in bound_list])
 
     def __len__(self):
@@ -50,7 +50,7 @@ if __name__ == '__main__':
                   [-2, 2]] # y values
 
     dataset = AutoGenerating_dataset(n_points, n_variables, function, bound_list)
-    item = dataset.__getitem__([0, 1, 2])
+    item = dataset.__getitem__([0, 1])
     print(item[0])
     print(item[1])
     print(dataset.x_dataset.shape)
