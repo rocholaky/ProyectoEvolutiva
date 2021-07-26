@@ -30,12 +30,13 @@ class linear_Module(nn.Module):
         super(linear_Module, self).__init__()
         self.use_bias = bias
         # we initialice the linear module or torch:
-        self.weight = nn.Parameter(torch.rand((in_features, out_features)), requires_grad=True)
+        self.weight = nn.Parameter(torch.rand((in_features, out_features), dtype=torch.double), requires_grad=True)
         if bias:
             self.bias = nn.Parameter(torch.zeros((out_features,)), requires_grad=True)
 
 
     def forward(self, x):
+        x = x.to(torch.double)
         XW = torch.matmul(x, self.weight)
         if self.use_bias:
             XW += self.bias

@@ -24,7 +24,7 @@ class EQL_individual(Individual):
         individual needs to be mapped.
         """
     
-        self.phenotype = net_creator(genome)
+        self.phenotype, self.num_layers, self.used_codons = net_creator(genome)
         self.invalid = False
         if not self.phenotype:
             self.invalid = True
@@ -40,7 +40,7 @@ class EQL_individual(Individual):
         return self.eql_ind.to_string()
 
     def __call__(self, x):
-        x = torch.from_numpy(x)
+        x = torch.transpose(torch.from_numpy(x),1,0)
         return self.phenotype(x)
 
     
@@ -124,8 +124,16 @@ class network_generator:
                                     current_production = int(genome[used_input%n_input])%no_choices
                                     previous_layer = layer.pop()
                                     previous_layer[-1] = int(list_of_choices[current_production]['choice'][0]["symbol"])
-                                    layer.append(previous_layer)                             
-                                    return evol_eql_nn(self.init_features, net_builder(layer), previous_layer[-1])
+                                    layer.append(previous_layer)
+                                    num_layers = len(layer)
+                                    model = evol_eql_nn(self.init_features, net_builder(layer), previous_layer[-1])
+                                    # Imprimir parámetros de la red
+                                    #print('Parameters:')
+                                    #for name, param in model.named_parameters():
+                                    #    if param.requires_grad:
+                                    #        print(name)
+                                    #        print(param.data)
+                                    return model, num_layers, used_input
                         index+=1
 
         return False

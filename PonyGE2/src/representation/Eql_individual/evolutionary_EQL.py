@@ -12,7 +12,7 @@ class evol_eql_layer(nn.Module):
         super().__init__()
         # we define the input and output parameters:
         self.in_F = in_features
-        self.out_F = out_features      
+        self.out_F = out_features
 
         # layer function list: 
         self.b_list = nn.ModuleList(block_list)
@@ -60,7 +60,7 @@ class evol_eql_nn(nn.Module):
         self.out_F = out_features
 
         # layer list:
-        self.layers = nn.ModuleList(layer_list)
+        self.layer_list = nn.ModuleList(layer_list)
 
         # set the device: 
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

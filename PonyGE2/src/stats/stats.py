@@ -315,17 +315,24 @@ def update_stats(individuals, end):
     stats['ave_used_codons'] = np.nanmean(codons)
     stats['min_used_codons'] = np.nanmin(codons)
 
-    # Tree Depth Stats
-    depths = [i.depth for i in individuals]
-    stats['max_tree_depth'] = np.nanmax(depths)
-    stats['ave_tree_depth'] = np.nanmean(depths)
-    stats['min_tree_depth'] = np.nanmin(depths)
 
+    # Number of layers in the network Stats
+    all_num_layers = [i.num_layers for i in individuals]
+    stats['max_num_layers'] = np.nanmax(all_num_layers)
+    stats['ave_num_layers'] = np.nanmean(all_num_layers)
+    stats['min_num_layers'] = np.nanmin(all_num_layers)
+    # Tree Depth Stats
+    #depths = [i.depth for i in individuals]
+    #stats['max_tree_depth'] = np.nanmax(depths)
+    #stats['ave_tree_depth'] = np.nanmean(depths)
+    #stats['min_tree_depth'] = np.nanmin(depths)
+
+    # TODO: Poner quizás cuántos bloques posee en total la red
     # Tree Node Stats
-    nodes = [i.nodes for i in individuals]
-    stats['max_tree_nodes'] = np.nanmax(nodes)
-    stats['ave_tree_nodes'] = np.nanmean(nodes)
-    stats['min_tree_nodes'] = np.nanmin(nodes)
+    #nodes = [i.nodes for i in individuals]
+    #stats['max_tree_nodes'] = np.nanmax(nodes)
+    #stats['ave_tree_nodes'] = np.nanmean(nodes)
+    #stats['min_tree_nodes'] = np.nanmin(nodes)
 
     if not hasattr(params['FITNESS_FUNCTION'], 'multi_objective'):
         # Fitness Stats

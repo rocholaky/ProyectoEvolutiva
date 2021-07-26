@@ -22,7 +22,7 @@ def search_loop():
 
     # Initialise population
     individuals = initialisation(params['POPULATION_SIZE'])
-    print('Number of individuals in the population: ' + str(len(individuals)))
+    print('\nNumber of individuals in the population: ' + str(len(individuals)))
     print('\nLos genomas de la población inicial son:')
     for ind in individuals:
         print(ind.genome)
