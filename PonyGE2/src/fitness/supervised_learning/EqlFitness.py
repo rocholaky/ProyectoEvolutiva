@@ -10,6 +10,11 @@ class EqlFitness(base_ff):
         super().__init__()
         self.training_in, self.training_exp, self.test_in, self.test_exp = \
             get_data(params['DATASET_TRAIN'], params['DATASET_TEST'])
+        self.training_in = self.training_in.transpose().astype('float32')
+        self.training_exp = self.training_exp[:, np.newaxis].astype('float32')
+        self.test_in = self.test_in.astype('float32').transpose().astype('float32')
+        self.test_exp = self.test_exp[:, np.newaxis].astype('float32')
+            
 
     # Mejor usar el mse que viene en el archivo error_metrics.py
     # porque explicita que maximise = False

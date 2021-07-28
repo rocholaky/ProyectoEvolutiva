@@ -5,6 +5,7 @@ from representation import individual
 from representation.derivation import generate_tree
 from representation.latent_tree import latent_tree_mutate, latent_tree_repair
 from utilities.representation.check_methods import check_ind
+from representation.Eql_individual.neuronal_individual import EQL_individual, network_generator
 
 
 def mutation(pop):
@@ -31,7 +32,7 @@ def mutation(pop):
             new_ind = params['MUTATION'](ind)
 
         # Check ind does not violate specified limits.
-        check = check_ind(new_ind, "mutation")
+        check = new_ind.invalid
 
         while check:
             # Perform mutation until the individual passes all tests.
@@ -45,7 +46,7 @@ def mutation(pop):
                 new_ind = params['MUTATION'](ind)
 
             # Check ind does not violate specified limits.
-            check = check_ind(new_ind, "mutation")
+            check = new_ind.invalid
 
         # Append mutated individual to population.
         new_pop.append(new_ind)
@@ -93,7 +94,9 @@ def int_flip_per_codon(ind):
             ind.genome[i] = randint(0, params['CODON_SIZE'])
 
     # Re-build a new individual with the newly mutated genetic information.
-    new_ind = individual.Individual(ind.genome, None)
+    grammar = params['BNF_GRAMMAR']
+    net_creator = network_generator(grammar)
+    new_ind = EQL_individual(ind.genome, net_creator)
 
     return new_ind
 

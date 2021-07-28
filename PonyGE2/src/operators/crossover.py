@@ -4,6 +4,7 @@ from algorithm.parameters import params
 from representation import individual
 from representation.latent_tree import latent_tree_crossover, latent_tree_repair
 from utilities.representation.check_methods import check_ind
+from representation.Eql_individual.neuronal_individual import EQL_individual, network_generator
 
 
 def crossover(parents):
@@ -66,7 +67,7 @@ def crossover_inds(parent_0, parent_1):
     inds = params['CROSSOVER'](ind_0, ind_1)
 
     # Check each individual is ok (i.e. does not violate specified limits).
-    checks = [check_ind(ind, "crossover") for ind in inds]
+    checks = [ind.invalid for ind in inds]
 
     if any(checks):
         # An individual violates a limit.
@@ -108,8 +109,10 @@ def variable_onepoint(p_0, p_1):
         c_0, c_1 = genome_0[:], genome_1[:]
 
     # Put the new chromosomes into new individuals.
-    ind_0 = individual.Individual(c_0, None)
-    ind_1 = individual.Individual(c_1, None)
+    grammar = params['BNF_GRAMMAR']
+    net_creator = network_generator(grammar)
+    ind_0 = EQL_individual(c_0, net_creator)
+    ind_1 = EQL_individual(c_1, net_creator)
 
     return [ind_0, ind_1]
 

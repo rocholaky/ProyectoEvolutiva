@@ -1,7 +1,7 @@
 from multiprocessing import cpu_count
 from os import path, getcwd, pardir
 from socket import gethostname
-
+import os
 hostname = gethostname().split('.')
 machine_name = hostname[0]
 
@@ -266,8 +266,8 @@ def set_params(command_line_args, create_files=True):
     # LOAD PARAMETERS FILE
     # NOTE that the parameters file overwrites all previously set parameters.
     if 'PARAMETERS' in cmd_args:
-        #load_params(path.join(getcwd(), "PonyGE2/parameters", cmd_args['PARAMETERS']))
-        load_params(path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/parameters", cmd_args['PARAMETERS']))
+        load_params(path.join(getcwd(), "PonyGE2/parameters", cmd_args['PARAMETERS']))
+        #load_params(path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/parameters", cmd_args['PARAMETERS']))
 
     # Join original params dictionary with command line specified arguments.
     # NOTE that command line arguments overwrite all previously set parameters.
@@ -344,10 +344,10 @@ def set_params(command_line_args, create_files=True):
                     raise Exception(s)
 
         # Parse grammar file and set grammar class.
-        #params['BNF_GRAMMAR'] = grammar.Grammar(path.join("PonyGE2", "grammars",
-        #                                        params['GRAMMAR_FILE']))
-        params['BNF_GRAMMAR'] = grammar.Grammar(path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2", "grammars",
-                                                          params['GRAMMAR_FILE']))
+        params['BNF_GRAMMAR'] = grammar.Grammar(path.join("PonyGE2", "grammars",
+                                                        params['GRAMMAR_FILE']))
+        #params['BNF_GRAMMAR'] = grammar.Grammar(path.join(os.getcwd()+"/ProyectoEvolutiva/PonyGE2", "grammars",
+        #                                                  params['GRAMMAR_FILE']))
 
         # Population loading for seeding runs (if specified)
         if params['TARGET_SEED_FOLDER']:

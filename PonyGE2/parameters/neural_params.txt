@@ -1,4 +1,4 @@
-POPULATION_SIZE:        2 #10
+POPULATION_SIZE:        10
 GENERATIONS:            50
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
@@ -35,3 +35,8 @@ CACHE:                  True
 
 ### custom parameters ###
 INIT_FEATURES:          2
+
+# network values:
+Batch_size:             256
+lr:                     1e-3
+epochs:                 500

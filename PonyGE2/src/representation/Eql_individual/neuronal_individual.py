@@ -1,7 +1,8 @@
 from collections import deque
+import copy
 from representation.individual import Individual
 from algorithm.parameters import params
-import torch
+from torch import nn
 from representation.Eql_individual.evolutionary_EQL import evol_eql_nn
 from representation.Eql_individual.module_builder import net_builder
 
@@ -35,17 +36,24 @@ class EQL_individual(Individual):
         self.genome = genome
         
 
+    def update_phenotype(self, phenotype):
+        self.phenotype = phenotype
+        self.invalid = phenotype.invalid
+        return self.deep_copy()
+
 
     def __str__(self) -> str:
-        return self.eql_ind.to_string()
+        device = self.phenotype.device
+        struct =  self.phenotype.cpu().to_string()
+        self.phenotype.to(device)
+        return struct
 
     def __call__(self, x):
-        x = torch.transpose(torch.from_numpy(x),1,0)
         return self.phenotype(x)
 
     
     def deep_copy(self):
-        return self.net.deep_copy()
+        return copy.deepcopy(self)
 
     def set_invalid(self):
         self.invalid = True
@@ -136,7 +144,7 @@ class network_generator:
                                     return model, num_layers, used_input
                         index+=1
 
-        return False
+        return False, 0, 0
 
                 
                         

@@ -127,7 +127,7 @@ class net_trainer:
         optimizer.step()
         return loss, cost_f, cost_r
 
-
+    
 
     def train_EQL_network(self,  learning_rate, epochs, batch_size, lamda=0.1, threshold=1e-4, do_shuffle=True):
         nb_no_reg_training = int(epochs/2)

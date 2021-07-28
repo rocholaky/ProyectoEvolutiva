@@ -4,6 +4,7 @@ from operators.mutation import mutation
 from operators.replacement import replacement, steady_state
 from operators.selection import selection
 from stats.stats import get_stats
+from representation.Eql_individual.evolutionary_EQL import evol_eql_container
 
 def step(individuals):
     """
@@ -26,6 +27,13 @@ def step(individuals):
 
     # Mutate the new population.
     new_pop = mutation(cross_pop)
+
+    # create networks: 
+    # revisar el caso donde el output es distinto de 0
+    net_container = evol_eql_container(new_pop, 1)
+
+    # train_networks 
+    new_pop = net_container.train_individuals()
 
     # Evaluate the fitness of the new population.
     new_pop = evaluate_fitness(new_pop)
