@@ -3,7 +3,7 @@ from random import randint, random, sample, choice
 from algorithm.parameters import params
 from representation import individual
 from representation.latent_tree import latent_tree_crossover, latent_tree_repair
-from utilities.representation.check_methods import check_ind
+from utilities.representation.check_methods import check_ind, check_eql
 from representation.Eql_individual.neuronal_individual import EQL_individual, network_generator
 
 
@@ -67,7 +67,7 @@ def crossover_inds(parent_0, parent_1):
     inds = params['CROSSOVER'](ind_0, ind_1)
 
     # Check each individual is ok (i.e. does not violate specified limits).
-    checks = [ind.invalid for ind in inds]
+    checks = [check_eql(ind) for ind in inds]
 
     if any(checks):
         # An individual violates a limit.

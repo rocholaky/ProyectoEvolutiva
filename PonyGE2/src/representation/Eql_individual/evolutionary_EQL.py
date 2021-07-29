@@ -46,13 +46,13 @@ class evol_eql_layer(nn.Module):
             block_out.append(block.to_string(named_variables, threshold=threshold))
 
 
-        result = []
+        result = ""
         for i in range(self.out_F):
             res_per_block = []
             for block in block_out:
                 res_per_block += [block[i]]
-            result.append(res_per_block)
-        return result
+            result += ", "+res_per_block.pop()
+        return result[1:]
 
 
 # network of evolutionary eql layers:
@@ -98,6 +98,7 @@ class evol_eql_container(nn.Module):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         # generate the loss function:
         self.crit = nn.MSELoss(reduction='none')
+        self.L1_reg = nn.L1Loss(reduction='sum')
 
 
     def forward(self, x):
@@ -120,11 +121,16 @@ class evol_eql_container(nn.Module):
         return torch.sum(mse_per_ind), mse_per_ind.detach().cpu().numpy()
 
 
-    def train_individuals(self):
+    def train_individuals(self, check=False):
         # set parameters of training: 
-        batch_size = params['Batch_size']
+        if check:
+            epochs = params['Check_epochs']
+        else:
+            epochs = params['epochs']
         lr = params['lr']
-        epochs = params['epochs']
+        lamda = params['reg_pon']
+        
+        batch_size = params['Batch_size']
         # get datasets: 
         X, Y,_,_ = get_data(params['DATASET_TRAIN'], None)
         X = X.transpose().astype('float32')
@@ -151,15 +157,20 @@ class evol_eql_container(nn.Module):
                 y_pred = self.forward(inputs)
                 # calculate loss:
                 loss, mse_per_ind = self.criterion(y_pred, labels)
+
+                # regularizer loss: 
+                for parameter in self.ind.parameters():
+                    loss += lamda*self.L1_reg(parameter, torch.zeros_like(parameter))
                 # calculate grads:
                 loss.backward()
                 # update weights:
                 optimizer.step()
                 best_ind.append(mse_per_ind)
-            print(f"For epoch={epoch} the best loss was {np.min(np.mean(mse_per_ind, -1))}")
+            if not check:
+                print(f"For epoch={epoch} the best loss was {np.min(np.mean(mse_per_ind, -1))}")
 
         self.evol_ind = [ev_ind.update_phenotype(pheno) for ev_ind, pheno in zip(self.evol_ind, self.ind)]
-        return self.evol_ind
+        return self.evol_ind, best_ind[-1]
 
             
 

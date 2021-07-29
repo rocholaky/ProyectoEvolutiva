@@ -1,6 +1,7 @@
 from algorithm.parameters import params
 from representation import individual
 import numpy as np
+from representation.Eql_individual.evolutionary_EQL import evol_eql_container
 
 
 def check_ind(ind, check):
@@ -414,3 +415,12 @@ def check_tree(tree):
 
             else:
                 check_tree(child)
+
+
+def check_eql(ind):
+    if ind.invalid:
+        return True
+    else: 
+        container = evol_eql_container([ind], 1)
+        _, loss = container.train_individuals(check=True)
+        return np.any(np.isnan(loss))

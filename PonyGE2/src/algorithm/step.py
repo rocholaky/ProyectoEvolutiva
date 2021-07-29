@@ -29,11 +29,11 @@ def step(individuals):
     new_pop = mutation(cross_pop)
 
     # create networks: 
-    # revisar el caso donde el output es distinto de 0
+    # revisar el caso donde el output es distinto de 1
     net_container = evol_eql_container(new_pop, 1)
 
     # train_networks 
-    new_pop = net_container.train_individuals()
+    new_pop, _ = net_container.train_individuals()
 
     # Evaluate the fitness of the new population.
     new_pop = evaluate_fitness(new_pop)
