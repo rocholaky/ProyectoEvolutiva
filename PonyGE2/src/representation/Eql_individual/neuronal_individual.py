@@ -5,11 +5,6 @@ from algorithm.parameters import params
 from torch import nn
 from representation.Eql_individual.evolutionary_EQL import evol_eql_nn
 from representation.Eql_individual.module_builder import net_builder
-###################################
-from os import path
-from algorithm.parameters import params
-import pickle
-###################################
 
 class EQL_individual(Individual):
     '''
@@ -138,11 +133,6 @@ class network_generator:
                                     layer.append(previous_layer)
                                     num_layers = len(layer)
                                     model = evol_eql_nn(self.init_features, net_builder(layer), previous_layer[-1])
-                                    ####################################
-                                    pkl_file = path.join(params['FILE_PATH'], ("prueba.pkl"))
-                                    with open(pkl_file, 'wb') as outp:
-                                        pickle.dump(model, outp, pickle.HIGHEST_PROTOCOL)
-                                    ####################################
                                     # Imprimir parámetros de la red
                                     #print('Parameters:')
                                     #for name, param in model.named_parameters():
