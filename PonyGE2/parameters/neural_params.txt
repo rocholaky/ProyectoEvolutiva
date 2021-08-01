@@ -1,5 +1,5 @@
 POPULATION_SIZE:        10
-GENERATIONS:            15
+GENERATIONS:            5
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
 DATASET_TRAIN:          square_fn/Train.txt
@@ -43,4 +43,5 @@ epochs:                 500
 Check_epochs:           10
 reg_pon:                1e-2
 
-FILE_PATH:              C:\Users\rocho\Computacion_evolutiva\ProyectoEvolutiva\PonyGE2\src
+FILE_PATH:              /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
+#FILE_PATH:              C:\Users\rocho\Computacion_evolutiva\ProyectoEvolutiva\PonyGE2\src

@@ -33,10 +33,11 @@ def search_loop():
     get_stats(individuals)
 
     # Traditional GE
-    for generation in range(1, (params['GENERATIONS']+1)):
+    for generation in range(1, (params['GENERATIONS'])):
         stats['gen'] = generation
 
         # New generation
+        print('Generation número ' + str(generation-1))
         individuals = params['STEP'](individuals)
 
     if params['MULTICORE']:
@@ -65,7 +66,7 @@ def search_loop_from_state():
     # Traditional GE
     for generation in range(stats['gen'] + 1, (params['GENERATIONS'] + 1)):
         stats['gen'] = generation
-        
+
         # New generation
         individuals = params['STEP'](individuals)
     

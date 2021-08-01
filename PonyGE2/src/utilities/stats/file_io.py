@@ -4,7 +4,7 @@ from copy import copy
 
 from algorithm.parameters import params
 from utilities.stats import trackers
-
+import pickle
 
 def save_stats_to_file(stats, end=False):
     """
@@ -67,7 +67,10 @@ def save_best_ind_to_file(stats, ind, end=False, name="best"):
     savefile.write("Generation:\n" + str(stats['gen']) + "\n\n")
     savefile.write("Phenotype:\n" + str(ind.phenotype) + "\n\n")
     savefile.write("Genotype:\n" + str(ind.genome) + "\n")
-    savefile.write("Tree:\n" + str(ind) + "\n")
+    savefile.write("Math expression:\n" + str(ind) + "\n")
+    pkl_file = path.join(params['FILE_PATH'], (str(name) + ".pkl"))
+    with open(pkl_file, 'wb') as outp:
+        pickle.dump(ind, outp, pickle.HIGHEST_PROTOCOL)
     if hasattr(params['FITNESS_FUNCTION'], "training_test"):
         if end:
             savefile.write("\nTraining fitness:\n" + str(ind.training_fitness))

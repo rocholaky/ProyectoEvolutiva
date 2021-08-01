@@ -29,4 +29,3 @@ def mane():
 if __name__ == "__main__":
     set_params(['--parameters', 'neural_params.txt'])  # exclude the ponyge.py arg itself
     mane()
-    # Todo: revisar como corregir nan

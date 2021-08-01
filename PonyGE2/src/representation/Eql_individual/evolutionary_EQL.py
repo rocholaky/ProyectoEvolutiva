@@ -46,13 +46,20 @@ class evol_eql_layer(nn.Module):
             block_out.append(block.to_string(named_variables, threshold=threshold))
 
 
-        result = ""
-        for i in range(self.out_F):
-            res_per_block = []
+        #result = ""
+        if self.out_F == 1:
+            elem = ""
             for block in block_out:
-                res_per_block += [block[i]]
-            result += ", "+res_per_block.pop()
-        return result[1:]
+                elem += block[0]
+            res_per_block = elem
+        else:
+            res_per_block = []
+            for i in range(self.out_F):
+                elem = ""
+                for block in block_out:
+                    elem += block[i]
+                res_per_block.append(elem)
+        return res_per_block
 
 
 # network of evolutionary eql layers:
