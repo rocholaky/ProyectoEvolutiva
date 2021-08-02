@@ -47,13 +47,13 @@ class evol_eql_layer(nn.Module):
 
 
         #result = ""
+        res_per_block = []
         if self.out_F == 1:
             elem = ""
             for block in block_out:
                 elem += block[0]
-            res_per_block = elem
+            res_per_block.append(elem)
         else:
-            res_per_block = []
             for i in range(self.out_F):
                 elem = ""
                 for block in block_out:
@@ -91,7 +91,7 @@ class evol_eql_nn(nn.Module):
         input_string = None
         for layer in self.layer_list:
             input_string = layer.to_string(threshold,input_string=input_string)
-        return input_string
+        return input_string[0]
 
 
 # network container, here a population of networks is stored in order to train in parallel:

@@ -57,9 +57,9 @@ class linear_Module(nn.Module):
                 value = param[i, j]
                 if abs(value) > threshold:
                     if value > 0:
-                        expresion[j] += f"+{value:.3f}*{input_values[i]} "
+                        expresion[j] += f"+{value:.3f}*({input_values[i]}) "
                     else:
-                        expresion[j] += f"{value:.3f}*{input_values[i]} "
+                        expresion[j] += f"{value:.3f}*({input_values[i]}) "
 
             if bias is not False and float(bias[j]) != 0:
                 if bias[j] < 0:

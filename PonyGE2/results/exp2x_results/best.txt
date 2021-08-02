@@ -1,0 +1,32 @@
+Generation:
+14
+
+Phenotype:
+evol_eql_nn(
+  (layer_list): ModuleList(
+    (0): evol_eql_layer(
+      (b_list): ModuleList(
+        (0): exp_Module(
+          (exp_module): linear_Module()
+          (exp_output): linear_Module()
+        )
+      )
+    )
+    (1): evol_eql_layer(
+      (b_list): ModuleList(
+        (0): power_Module(
+          (power_module): linear_Module()
+          (power_output): linear_Module()
+        )
+      )
+    )
+  )
+)
+
+Genotype:
+[81, 45, 14, 5, 99, 32, 23, 97, 89, 12, 87, 40, 15, 27, 38, 13, 30, 60, 78]
+Math expression:
++0.907*(exp(+0.972*(ln(|+1.108*(exp(-0.001*(x_0) +1.988*(x_1) )) +0.994*(exp(+0.547*(x_0) +0.565*(x_1) )) +0.623*(exp(+0.514*(x_0) +0.546*(x_1) )) |)) +1.420*(ln(|+1.407*(exp(-0.001*(x_0) +1.988*(x_1) )) +0.822*(exp(+0.547*(x_0) +0.565*(x_1) )) +0.437*(exp(+0.514*(x_0) +0.546*(x_1) )) |)) )) +1.042*(exp(+1.468*(ln(|+1.108*(exp(-0.001*(x_0) +1.988*(x_1) )) +0.994*(exp(+0.547*(x_0) +0.565*(x_1) )) +0.623*(exp(+0.514*(x_0) +0.546*(x_1) )) |)) +0.925*(ln(|+1.407*(exp(-0.001*(x_0) +1.988*(x_1) )) +0.822*(exp(+0.547*(x_0) +0.565*(x_1) )) +0.437*(exp(+0.514*(x_0) +0.546*(x_1) )) |)) )) 
+
+Fitness:
+4.5868735e+16
