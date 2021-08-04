@@ -1,4 +1,4 @@
-from os import path, getcwd
+from os import path
 
 import numpy as np
 
@@ -91,12 +91,22 @@ def get_data(train, test):
     """
     
     # Get the path to the training dataset.
+<<<<<<< HEAD
     train_set = path.join(getcwd(), "PonyGE2","datasets", train)
+=======
+    #train_set = path.join("PonyGE2","datasets", train)
+    train_set = path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2", "datasets", train)
+>>>>>>> parent of b29571f... To_string() y paths arreglado. Dataset_util2 arreglado. Algunos resultados en results.
 
         
     if test:
         # Get the path to the testing dataset.
+<<<<<<< HEAD
         test_set = path.join(getcwd(), "PonyGE2", "datasets", test)
+=======
+        #test_set = path.join("PonyGE2","datasets", test)
+        test_set = path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2", "datasets", test)
+>>>>>>> parent of b29571f... To_string() y paths arreglado. Dataset_util2 arreglado. Algunos resultados en results.
     
     else:
         # There is no testing dataset used.

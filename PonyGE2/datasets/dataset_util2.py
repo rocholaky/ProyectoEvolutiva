@@ -2,8 +2,6 @@ from torch.utils.data import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
-from os import path, mkdir, getcwd
-from inspect import getsource
 
 
 # Dataset object that creates a artificial dataset given the number of points, the number of variables and
@@ -41,33 +39,15 @@ class Generate_pony_dataset(Dataset):
         return x_values, y_values
 
 if __name__ == '__main__':
-    # custom parameters
-    n_points_train = 2048
-    n_points_test = 2048
+    n_points_train = 1024
+    n_points_test = 1024
     n_variables = 2
-    x_range = (-5, 5)
-
-    # custom function we want to guess:
-    function = lambda x: np.exp((1-x[:,0])**2)
-    folder_name = 'exp_norm'
-
-    ######
-    # create and save new dataset
-    mkdir(folder_name)
+    # function we want to guess:
+    function = lambda x: np.square(x[:,0])
+    x_range = (-5,5)
     dataset = Generate_pony_dataset(n_points_train, n_variables, function, x_range)
     train_Xy = np.concatenate((dataset.x_dataset, np.expand_dims(dataset.y_dataset, 1)), 1)
-    np.savetxt(path.join(getcwd(), folder_name, "Train.txt"), train_Xy, delimiter='\t', fmt='%.11f')
+    np.savetxt('/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/datasets/square_fn/Train.txt', train_Xy, delimiter='\t', fmt='%.11f')
     dataset = Generate_pony_dataset(n_points_test, n_variables, function, x_range)
     test_Xy = np.concatenate((dataset.x_dataset, np.expand_dims(dataset.y_dataset, 1)), 1)
-    np.savetxt(path.join(getcwd(), folder_name, "Test.txt"), test_Xy, delimiter='\t', fmt='%.11f')
-
-    # save parameters info
-    filename = path.join(getcwd(), folder_name, "dataset_info.txt")
-    savefile = open(filename, 'w')
-    savefile.write(getsource(function) + '\n')
-    savefile.write('n_variables: ' + str(n_variables) + '\n')
-    savefile.write('------------------\n')
-    savefile.write('x_range: ' + str(x_range) + '\n')
-    savefile.write('n_points_train: ' + str(n_points_train) + '\n')
-    savefile.write('n_points_test: ' + str(n_points_test) + '\n')
-    savefile.close()
+    np.savetxt('/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/datasets/square_fn/Test.txt', test_Xy, delimiter='\t', fmt='%.11f')

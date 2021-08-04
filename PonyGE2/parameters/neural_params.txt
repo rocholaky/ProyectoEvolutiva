@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 POPULATION_SIZE:        20
 GENERATIONS:            50
+=======
+POPULATION_SIZE:        10
+GENERATIONS:            15
+>>>>>>> parent of b29571f... To_string() y paths arreglado. Dataset_util2 arreglado. Algunos resultados en results.
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
-DATASET_TRAIN:          exp_norm/Train.txt
-DATASET_TEST:           exp_norm/Test.txt
+DATASET_TRAIN:          square_fn/Train.txt
+DATASET_TEST:           square_fn/Test.txt
 
 GRAMMAR_FILE:           supervised_learning/NeuralNets.bnf
 CODON_SIZE:             100 #100000
@@ -43,5 +48,5 @@ epochs:                 500
 Check_epochs:           10
 reg_pon:                1e-2
 
-FILE_PATH:              path.join(getcwd(), "PonyGE2", "src")
-#FILE_PATH:             C:\Users\rocho\Computacion_evolutiva\ProyectoEvolutiva\PonyGE2\src
+FILE_PATH:              /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
+#FILE_PATH:              C:\Users\rocho\Computacion_evolutiva\ProyectoEvolutiva\PonyGE2\src

@@ -1,7 +1,0 @@
-    function = lambda x: np.exp((1-x[:,0])**2)
-
-n_variables: 2
-------------------
-x_range: (-5, 5)
-n_points_train: 2048
-n_points_test: 2048
