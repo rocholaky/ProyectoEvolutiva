@@ -266,12 +266,8 @@ def set_params(command_line_args, create_files=True):
     # LOAD PARAMETERS FILE
     # NOTE that the parameters file overwrites all previously set parameters.
     if 'PARAMETERS' in cmd_args:
-<<<<<<< HEAD
-        load_params(path.join(os.getcwd(), "PonyGE2","parameters", cmd_args['PARAMETERS']))
-=======
-        #load_params(path.join(getcwd(), "PonyGE2/parameters", cmd_args['PARAMETERS']))
-        load_params(path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/parameters", cmd_args['PARAMETERS']))
->>>>>>> parent of b29571f... To_string() y paths arreglado. Dataset_util2 arreglado. Algunos resultados en results.
+        load_params(path.join(path.dirname(os.getcwd()), "PonyGE2","parameters", cmd_args['PARAMETERS']))
+
 
     # Join original params dictionary with command line specified arguments.
     # NOTE that command line arguments overwrite all previously set parameters.
@@ -348,12 +344,8 @@ def set_params(command_line_args, create_files=True):
                     raise Exception(s)
 
         # Parse grammar file and set grammar class.
-<<<<<<< HEAD
-        params['BNF_GRAMMAR'] = grammar.Grammar(path.join(os.getcwd(), "PonyGE2","grammars",
-=======
-        params['BNF_GRAMMAR'] = grammar.Grammar(path.join("/home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2", "grammars",
->>>>>>> parent of b29571f... To_string() y paths arreglado. Dataset_util2 arreglado. Algunos resultados en results.
-                                                          params['GRAMMAR_FILE']))
+
+        params['BNF_GRAMMAR'] = grammar.Grammar(path.join(path.dirname(os.getcwd()), "grammars",params['GRAMMAR_FILE']))
         #params['BNF_GRAMMAR'] = grammar.Grammar(path.join("PonyGE2", "grammars",
         #                                                params['GRAMMAR_FILE']))
         #params['BNF_GRAMMAR'] = grammar.Grammar(path.join(os.getcwd()+"/ProyectoEvolutiva/PonyGE2", "grammars",
