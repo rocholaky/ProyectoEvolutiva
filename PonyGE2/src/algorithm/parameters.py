@@ -202,6 +202,7 @@ def load_params(file_name):
 
 
     try:
+        print(file_name)
         open(file_name, "r")
     except FileNotFoundError:
         s = "algorithm.parameters.load_params\n" \
