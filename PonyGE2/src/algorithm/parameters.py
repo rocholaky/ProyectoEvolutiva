@@ -266,7 +266,7 @@ def set_params(command_line_args, create_files=True):
     # LOAD PARAMETERS FILE
     # NOTE that the parameters file overwrites all previously set parameters.
     if 'PARAMETERS' in cmd_args:
-        load_params(path.join(path.dirname(os.getcwd()), "PonyGE2","parameters", cmd_args['PARAMETERS']))
+        load_params(path.join(path.dirname(os.getcwd()),"parameters", cmd_args['PARAMETERS']))
 
 
     # Join original params dictionary with command line specified arguments.
