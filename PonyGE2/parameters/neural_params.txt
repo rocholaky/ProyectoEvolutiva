@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 POPULATION_SIZE:        20
 GENERATIONS:            50
-=======
-POPULATION_SIZE:        10
-GENERATIONS:            15
->>>>>>> parent of b29571f... To_string() y paths arreglado. Dataset_util2 arreglado. Algunos resultados en results.
+
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
 DATASET_TRAIN:          square_fn/Train.txt
