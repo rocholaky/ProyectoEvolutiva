@@ -91,12 +91,12 @@ def get_data(train, test):
     """
     
     # Get the path to the training dataset.
-    train_set = path.join(path.dirname(getcwd()), "datasets", train)
+    train_set = path.join(getcwd(), "PonyGE2","datasets", train)
 
         
     if test:
         # Get the path to the testing dataset.
-        test_set = path.join(path.dirname(getcwd()), "datasets", test)
+        test_set = path.join(getcwd(), "PonyGE2", "datasets", test)
     
     else:
         # There is no testing dataset used.

@@ -37,7 +37,7 @@ def search_loop():
         stats['gen'] = generation
 
         # New generation
-        print('Generation número ' + str(generation-1))
+        print('Generation número ' + str(generation-1)+ "\n")
         individuals = params['STEP'](individuals)
 
     if params['MULTICORE']:

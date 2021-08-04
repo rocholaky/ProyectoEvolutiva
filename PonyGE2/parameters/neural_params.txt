@@ -1,5 +1,5 @@
 POPULATION_SIZE:        20
-GENERATIONS:            15
+GENERATIONS:            50
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
 DATASET_TRAIN:          exp_norm/Train.txt
