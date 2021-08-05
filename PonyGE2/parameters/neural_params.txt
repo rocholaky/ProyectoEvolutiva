@@ -3,8 +3,8 @@ GENERATIONS:            200
 
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
-DATASET_TRAIN:          exp_norm/Train.txt
-DATASET_TEST:           exp_norm/Test.txt
+DATASET_TRAIN:          square_fn/Train.txt
+DATASET_TEST:           square_fn/Test.txt
 
 GRAMMAR_FILE:           supervised_learning/NeuralNets.bnf
 CODON_SIZE:             100 #100000
@@ -25,7 +25,7 @@ CROSSOVER_PROBABILITY:  0.75
 
 # mutation
 MUTATION:               operators.mutation.int_flip_per_codon
-MUTATION_PROBABILITY:   None #0.15   # (None defaults to 1 over the length of the genome for each codon)
+MUTATION_PROBABILITY:   0.2   # (None defaults to 1 over the length of the genome for each codon)
 MUTATION_EVENTS:        1
 
 REPLACEMENT:            operators.replacement.generational
@@ -42,7 +42,7 @@ Batch_size:             256
 lr:                     1e-3
 epochs:                 600
 Check_epochs:           20
-reg_pon:                1e-1
+reg_pon:                1e-2
 
 FILE_PATH:              os.path.expanduser('~')
 #FILE_PATH:             /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
