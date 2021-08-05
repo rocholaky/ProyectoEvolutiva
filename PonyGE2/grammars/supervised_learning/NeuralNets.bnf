@@ -4,6 +4,6 @@
 <nblock>  ::= 1 | 2 | 3 | 4
 <neurons>  ::= 1 | 2 | 3 | 4
 <bout>  ::= 1 | 2 | 3 | 4
-<strc>  ::= <out> | <layer> | <out>
+<strc>  ::= <out> | <layer> | <out> | <out>
 <out>  ::= 1
 
