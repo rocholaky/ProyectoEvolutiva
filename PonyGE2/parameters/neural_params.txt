@@ -3,8 +3,8 @@ GENERATIONS:            50
 
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
-DATASET_TRAIN:          square_fn/Train.txt
-DATASET_TEST:           square_fn/Test.txt
+DATASET_TRAIN:          exp_norm/Train.txt
+DATASET_TEST:           exp_norm/Test.txt
 
 GRAMMAR_FILE:           supervised_learning/NeuralNets.bnf
 CODON_SIZE:             100 #100000
