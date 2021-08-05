@@ -36,3 +36,10 @@ class exp_fn_creator:
 
     def build(self, in_f, neurons, out_f, bias=False):
         return self.ex(in_f, neurons, out_f)
+
+class linear_fn_creator: 
+    def __init__(self) -> None:
+        self.lin = network_parts.linear_Module
+    
+    def build(self, in_f, neurons, out_f, bias=True):
+        return self.lin(in_f, out_f, bias)
