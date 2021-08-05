@@ -45,11 +45,11 @@ if __name__ == '__main__':
     n_points_train = 2048
     n_points_test = 2048
     n_variables = 2
-    x_range = (-5, 5)
+    x_range = (0.1, 5)
 
     # custom function we want to guess:
-    function = lambda x: np.exp((1-x[:,0])**2)
-    folder_name = 'exp_norm'
+    function = lambda x: -x[:,0]*x[:,0] + 0.0525*x[:,0]**4.1271 + 1.5874*x[:,0]
+    folder_name = 'Cdrag_FB'
 
     ######
     # create and save new dataset

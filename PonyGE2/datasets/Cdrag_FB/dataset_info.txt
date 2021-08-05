@@ -1,0 +1,7 @@
+    function = lambda x: -x[:,0]*x[:,0] + 0.0525*x[:,0]**4.1271 + 1.5874*x[:,0]
+
+n_variables: 2
+------------------
+x_range: (0.1, 5)
+n_points_train: 2048
+n_points_test: 2048
