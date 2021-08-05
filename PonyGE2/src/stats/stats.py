@@ -94,6 +94,10 @@ def get_soo_stats(individuals, end):
         trackers.best_ever = best
 
     print("best: " + str(trackers.best_ever))
+    pkl_file = path.join(params['FILE_PATH'], "best_so_far.pkl")
+    with open(pkl_file, 'wb') as outp:
+        pickle.dump(trackers.best_ever, outp, pickle.HIGHEST_PROTOCOL)
+
     if end or params['VERBOSE'] or not params['DEBUG']:
         # Update all stats.
         update_stats(individuals, end)

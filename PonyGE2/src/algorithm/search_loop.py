@@ -40,6 +40,7 @@ def search_loop():
         print('Generation número ' + str(generation-1)+ "\n")
         individuals = params['STEP'](individuals)
 
+
     if params['MULTICORE']:
         # Close the workers pool (otherwise they'll live on forever).
         params['POOL'].close()
