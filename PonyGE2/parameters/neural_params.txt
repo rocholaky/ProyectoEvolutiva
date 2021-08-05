@@ -12,11 +12,11 @@ MAX_WRAPS:              30 # 0
 
 # initialization
 INITIALISATION:         operators.initialisation.uniform_eql
-INIT_GENOME_LENGTH:     200 #30 #200
+INIT_GENOME_LENGTH:     100 #30 #200
 
 # selection
 SELECTION:              operators.selection.tournament
-TOURNAMENT_SIZE:        2
+TOURNAMENT_SIZE:        10
 SELECTION_PROPORTION:   0.5
 
 # cross-over
@@ -39,10 +39,10 @@ INIT_FEATURES:          2
 
 # network values:
 Batch_size:             256
-lr:                     1e-4
+lr:                     1e-3
 epochs:                 600
 Check_epochs:           20
-reg_pon:                1e-3
+reg_pon:                1e-1
 
 FILE_PATH:              os.path.expanduser('~')
 #FILE_PATH:             /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
