@@ -1,5 +1,5 @@
-POPULATION_SIZE:        20
-GENERATIONS:            50
+POPULATION_SIZE:        50
+GENERATIONS:            200
 
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
@@ -39,8 +39,8 @@ INIT_FEATURES:          2
 
 # network values:
 Batch_size:             256
-lr:                     1e-4
-epochs:                 500
+lr:                     1e-3
+epochs:                 600
 Check_epochs:           10
 reg_pon:                1e-2
 
