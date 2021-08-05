@@ -1,5 +1,5 @@
-POPULATION_SIZE:        20
-GENERATIONS:            50
+POPULATION_SIZE:        200
+GENERATIONS:            100
 
 FITNESS_FUNCTION:       supervised_learning.EqlFitness
 
@@ -16,7 +16,7 @@ INIT_GENOME_LENGTH:     30 #200
 
 # selection
 SELECTION:              operators.selection.tournament
-TOURNAMENT_SIZE:        4
+TOURNAMENT_SIZE:        10
 SELECTION_PROPORTION:   0.5
 
 # cross-over
@@ -39,7 +39,7 @@ INIT_FEATURES:          2
 
 # network values:
 Batch_size:             256
-lr:                     1e-3
+lr:                     1e-4
 epochs:                 500
 Check_epochs:           10
 reg_pon:                1e-2
