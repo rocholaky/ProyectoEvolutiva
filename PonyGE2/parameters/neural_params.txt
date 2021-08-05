@@ -44,5 +44,6 @@ epochs:                 600
 Check_epochs:           20
 reg_pon:                1e-2
 
-FILE_PATH:              /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
-#FILE_PATH:              C:\Users\rocho\Computacion_evolutiva\ProyectoEvolutiva\PonyGE2\src
+FILE_PATH:              os.path.expanduser('~')
+#FILE_PATH:             /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
+#FILE_PATH:             C:\Users\rocho\Computacion_evolutiva\ProyectoEvolutiva\PonyGE2\src

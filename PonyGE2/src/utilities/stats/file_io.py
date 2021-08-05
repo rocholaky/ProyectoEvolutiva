@@ -1,6 +1,7 @@
 from os import path, getcwd, makedirs
 from shutil import rmtree
 from copy import copy
+import os
 
 from algorithm.parameters import params
 from utilities.stats import trackers
@@ -175,3 +176,5 @@ def save_params_to_file():
                        str(params[param]) + "\n")
 
     savefile.close()
+
+
