@@ -125,8 +125,7 @@ class evol_eql_container(nn.Module):
         y_true = torch.tile(y_true.unsqueeze(0), (pred.shape[0],1,1))
         se_matrix = self.crit(pred, y_true)
         mse_per_ind = torch.mean(se_matrix, dim=(1, 2)).unsqueeze(-1)
-        return torch.sum(mse_per_ind), mse_per_ind.detach().cpu().numpy()
-
+        return mse_per_ind
 
     def train_individuals(self, check=False):
         # set parameters of training: 
@@ -163,15 +162,20 @@ class evol_eql_container(nn.Module):
                 # we get the prediction of the network:
                 y_pred = self.forward(inputs)
                 # calculate loss:
-                loss, mse_per_ind = self.criterion(y_pred, labels)
+                loss = self.criterion(y_pred, labels)
 
                 # regularizer loss: 
-                for parameter in self.ind.parameters():
-                    loss += lamda*self.L1_reg(parameter, torch.zeros_like(parameter))
+                for i, aind in enumerate(self.ind): 
+                    for parameter in aind.parameters():
+                        loss[i, :] += lamda*self.L1_reg(parameter, torch.zeros_like(parameter))
+
+                mse_per_ind = loss.detach().cpu().numpy()
+                loss = torch.sum(loss)
                 # calculate grads:
                 loss.backward()
                 # update weights:
                 optimizer.step()
+                
                 best_ind.append(mse_per_ind)
             if not check:
                 print(f"For epoch={epoch} the best loss was {np.min(np.mean(mse_per_ind, -1))}")
