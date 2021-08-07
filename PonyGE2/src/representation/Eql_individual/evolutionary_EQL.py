@@ -39,7 +39,11 @@ class evol_eql_layer(nn.Module):
         if input_string is None:
             named_variables = [f"x_{j}" for j in range(self.in_F)]
         else:
-            named_variables = [f"{expr}" for expr in input_string]
+            if isinstance(input_string, list):
+                named_variables = [f"{expr}" for expr in input_string]
+            else:
+                named_variables = [f"{input_string}"]
+            #named_variables = [f"{expr}" for expr in input_string]
 
         block_out = []
         for block in self.b_list:
