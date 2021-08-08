@@ -86,9 +86,6 @@ class evol_eql_nn(nn.Module):
         x = torch.Tensor(x).to(self.device)
         for layer in self.layer_list:
             x = layer(x)
-        if torch.any(torch.isnan(x)):
-            self.invalid = True
-            x = x*0
         return x
 
     def to_string(self, threshold=1e-4, input_string=None):
@@ -217,9 +214,12 @@ class train_dataset(Dataset):
         
 if __name__ == '__main__':
     in_features = 2
-    out_features = 1
+    out_features = 2
     n_units = 2
-    block_list = [power_Module(in_features, n_units, out_features), 
-                    sin_Module(in_features, n_units, out_features)]
-    evol_q = evol_eql_layer(in_features, block_list, out_features)
+    block_list = [power_Module(in_features, n_units, out_features),
+                    linear_Module(in_features, out_features, True)]
+    b_list = [exp_Module(out_features, n_units, 1)]
+    evol_1 = evol_eql_layer(in_features, block_list, out_features)
+    evol_2 = evol_eql_layer(out_features, b_list, 1)
+    evol_q = evol_eql_nn(in_features, [evol_1, evol_2], 1)
     print(list(evol_q.parameters()))
