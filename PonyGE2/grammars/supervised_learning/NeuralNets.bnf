@@ -1,5 +1,5 @@
 <start>  ::= <nblock><fn><neurons><bout><strc>
-<fn>  ::= ExpCreator() | SinCreator() | PowCreator() | LinCreator()
+<fn>  ::= ExpCreator() | PowCreator() | LinCreator()
 <layer>  ::= <nblock><fn><neurons><bout><strc>
 <nblock>  ::= 1 | 2 | 3 | 4
 <neurons>  ::= 1 | 2 | 3 | 4
