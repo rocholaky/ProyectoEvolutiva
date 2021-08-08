@@ -177,8 +177,7 @@ class evol_eql_container(nn.Module):
                 loss = torch.sum(loss)
                 # calculate grads:
                 loss.backward()
-                # clip gradient
-                nn.utils.clip_grad_value_(self.ind.parameters(), 1e6)
+
                 # update weights:
                 optimizer.step()
                 
