@@ -26,8 +26,14 @@ class EqlFitness(base_ff):
 
     def evaluate(self, ind, **kwargs):
         lamda = params['reg_pon']
+        do_reg = params['use_reg']
+        layer_lamda = params['layer_pond']
+        block_lamda = params['block_pond']
         param_loss = 0
         with torch.no_grad():
-            for parameter in ind.phenotype.parameters():
-                param_loss += lamda*self.L1_reg(parameter, torch.zeros_like(parameter)).cpu().detach().numpy()
+            if do_reg:
+                for parameter in ind.phenotype.parameters():
+                    param_loss += lamda*self.L1_reg(parameter, torch.zeros_like(parameter)).cpu().detach().numpy()
+            else: 
+                param_loss += layer_lamda*ind.n_layers + block_lamda*ind.n_blocks
         return mse(self.test_exp, ind(self.test_in).cpu().detach().numpy()) + param_loss

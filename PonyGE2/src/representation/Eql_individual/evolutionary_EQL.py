@@ -77,6 +77,11 @@ class evol_eql_nn(nn.Module):
 
         # layer list:
         self.layer_list = nn.ModuleList(layer_list)
+        self.n_layers = len(self.layer_list)
+        self.n_blocks = 0
+
+        for layer in self.layer_list:
+            self.n_blocks += len(layer.b_list)
 
         # set the device: 
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -148,6 +153,9 @@ class evol_eql_container(nn.Module):
 
         # create train_loader:
         train_loader = torch.utils.data.DataLoader(train_dataset(X, Y), batch_size, shuffle=True)
+        
+        #define if we use reg:
+        do_reg = params['use_reg']
 
         # start training: 
         for epoch in range(epochs):
@@ -166,9 +174,10 @@ class evol_eql_container(nn.Module):
                 loss = self.criterion(y_pred, labels)
 
                 # regularizer loss: 
-                for i, aind in enumerate(self.ind): 
-                    for parameter in aind.parameters():
-                        loss[i, :] += lamda*self.L1_reg(parameter, torch.zeros_like(parameter))
+                if do_reg:
+                    for i, aind in enumerate(self.ind): 
+                        for parameter in aind.parameters():
+                            loss[i, :] += lamda*self.L1_reg(parameter, torch.zeros_like(parameter))
 
                 mse_per_ind = loss.detach().cpu().numpy()
                 loss = torch.sum(loss)

@@ -25,9 +25,15 @@ class EQL_individual(Individual):
     
         self.phenotype, self.num_layers, self.used_codons = net_creator(genome)
         self.invalid = False
+        self.n_blocks = 0
+        self.n_layers = 0
         if not self.phenotype:
             self.invalid = True
-
+            self.n_blocks = 100
+            self.n_layers = 100
+        else: 
+            self.n_blocks = self.phenotype.n_blocks
+            self.n_layers = self.phenotype.n_layers
         self.fitness = params["FITNESS_FUNCTION"].default_fitness
         self.runtime_error = False
         self.name = None

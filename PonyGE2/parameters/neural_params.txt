@@ -42,7 +42,11 @@ Batch_size:             256
 lr:                     1e-4
 epochs:                 1000
 Check_epochs:           20
+use_reg:                 False
 reg_pon:                5e-5
+layer_pond:              1e-2
+block_pond:              1e-3         
+
 
 FILE_PATH:              os.path.expanduser('~')
 #FILE_PATH:             /home/franrosi/PycharmProjects/ProyectoEvolutiva/PonyGE2/src
