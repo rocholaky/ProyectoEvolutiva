@@ -96,7 +96,7 @@ def get_soo_stats(individuals, end):
         trackers.best_ever = best
 
     print("best: " + str(trackers.best_ever))
-    print(trackers.best_ever )
+    print(trackers.best_ever.phenotype )
     pkl_file = os.path.join(params['FILE_PATH'], "best_so_far.pkl")
     with open(pkl_file, 'wb') as outp:
         pickle.dump(trackers.best_ever, outp, pickle.HIGHEST_PROTOCOL)
