@@ -1,4 +1,4 @@
-    function = lambda x: 0.891*x[:, 0] - np.square(x[:, 0]) + np.power(x[:, 1], 0.1452)
+    function = lambda x: 2.0232*np.power(x[:, 0], 0.5528)
 
 n_variables: 2
 ------------------
