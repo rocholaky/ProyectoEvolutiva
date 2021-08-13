@@ -80,10 +80,11 @@ if __name__ == '__main__':
     n_points_test = ceil(0.3 * n_points_train)
     n_variables = 3
     # function we want to guess:
-    function = lambda x: 2.0*x[:, 0] + x[:,1]
-    bound_list = [[0, 2.5], # x values
-                  [30, 40],
-                  [10,2]]
+    function = lambda x: 2.0232 * np.power(x[:, 0], 0.5528)
+    bound_list = [[1.3, 2.4],  # x values
+                  [1000, 11000],
+                  [0.3, 1.5],
+                  [0.6, 1.05]]
 
     dataset = AutoGenerating_dataset(n_points_train, n_points_test, n_variables, function, bound_list)
     item = dataset.__getitem__([0, 1])
@@ -94,5 +95,5 @@ if __name__ == '__main__':
     axs[0].plot(1,1,dataset.x_dataset[0:200,0])
     axs[1].plot(2,1,dataset.x_dataset[0:200,1])
     plt.show()
-    dataset.save_file("ñruebad")
+    dataset.save_file("Nu_FB")
 
