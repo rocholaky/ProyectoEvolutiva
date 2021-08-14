@@ -128,8 +128,8 @@ class Generating_dataset_CSV(Dataset):
         script_dir, _ = os.path.split(os.path.abspath(__file__))
         dataset_path = path.join(script_dir, folder_name)
         mkdir(dataset_path)
-        np.savetxt(path.join(dataset_path, "Train.txt"), self.xy_Train, delimiter='\t', fmt='%.11f')
-        np.savetxt(path.join(dataset_path, "Test.txt"), self.xy_Test, delimiter='\t', fmt='%.11f')
+        np.savetxt(path.join(dataset_path, "Train.txt"), self.xy_Train, delimiter='\t', fmt='%.5f')
+        np.savetxt(path.join(dataset_path, "Test.txt"), self.xy_Test, delimiter='\t', fmt='%.5f')
 
         # save parameters info
         filename = path.join(dataset_path, "dataset_info.txt")
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     plt.show()
     dataset.save_file("Nu_FB")
     """""
-    var_list = ['K', 'colIndex']
-    dataset = Generating_dataset_CSV('53_celdas_nusselt_mayo2021_1.csv', var_list, test_proportion=0.2)
-    dataset.save_file("nusselt_Ansys")
+    var_list = ['K', 'Rem', 'colIndex']
+    dataset = Generating_dataset_CSV('53_celdas_frictionFactor_mayo2021_1.csv', var_list, test_proportion=0.2)
+    dataset.save_file("frictionF")
 
