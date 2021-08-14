@@ -1,0 +1,6 @@
+frictionFactor
+n_variables: 3
+------------------
+input_range: [[0.3, 1.5], [26.89532505450274, 10914.562355202192], [1.0, 7.0]]
+n_points_train: 7000
+n_points_test: 1750
