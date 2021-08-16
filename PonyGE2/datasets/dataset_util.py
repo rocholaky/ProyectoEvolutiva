@@ -168,7 +168,7 @@ if __name__ == '__main__':
     plt.show()
     dataset.save_file("Nu_FB")
     """""
-    var_list = ['K', 'Rem', 'colIndex']
-    dataset = Generating_dataset_CSV('53_celdas_cdrag__mayo2021_1.csv', var_list, test_proportion=0.2)
-    dataset.save_file("cdrag_Ansys")
+    var_list = ['K', 'Rem', 'prandtl' ,'colIndex']
+    dataset = Generating_dataset_CSV('53_celdas_nusselt_mayo2021_1.csv', var_list, test_proportion=0.2)
+    dataset.save_file("nusselt_Ansys")
 
