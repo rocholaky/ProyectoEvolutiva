@@ -6,10 +6,12 @@ from utilities.fitness.get_data import get_Xy_train_test_separate
 import pickle
 
 if __name__ == '__main__':
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    with open(os.path.join(os.getcwd(), 'Results', 'best_nn_in_cpu', 'frictionF_Ansys.pkl'), 'rb') as handle:
-        model = pickle.load(handle)
+    model_name = 'frictionF_Ansys.pkl'
     dataset_name = 'frictionF_Ansys'
+
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    with open(os.path.join(os.getcwd(), 'Results', 'best_nn_in_cpu', model_name), 'rb') as handle:
+        model = pickle.load(handle)
     #model = torch.load(os.path.join(os.getcwd(), 'best_model_Cdrag.pkl'), map_location=device)
     # Si el modelo se generó en cuda (por ejemplo en el cluster), esto sirve para
     # correrlo en el local con cpu, y en gpu igual funciona
