@@ -4,11 +4,12 @@ import os
 from representation.Eql_individual.evolutionary_EQL import *
 from utilities.fitness.get_data import get_Xy_train_test_separate
 import pickle
+import copy
 
 if __name__ == '__main__':
-    model_name = 'nusselt_Ansys.pkl'
-    dataset_name = 'nusselt_Ansys'
-    use_reg = False
+    model_name = 'NuFB.pkl'
+    dataset_name = 'Nu_FB'
+    use_reg = True
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     with open(os.path.join(os.getcwd(), 'Results', 'best_nn_in_cpu', model_name), 'rb') as handle:
@@ -39,8 +40,6 @@ if __name__ == '__main__':
     #X = np.random.uniform(0.1, 5, (1000, 2)).astype('float32') # fran
     #X = np.random.uniform(-2, 2, (1000, 2)).astype('float32')
     #Y = func(X) # fran
-    X = train_X
-    Y = train_y
     
     # generate the loss function:
     crit = nn.MSELoss(reduction='mean')
@@ -52,51 +51,97 @@ if __name__ == '__main__':
     
     batch_size = 256
 
-    Y = Y[:, np.newaxis].astype('float32')
+    train_y = train_y[:, np.newaxis].astype('float32')
+    test_y = test_y[:, np.newaxis].astype('float32')
 
     # create optimizers:
     optimizer = torch.optim.Adam(model.parameters(), lr)
 
     # create train_loader:
-    train_loader = torch.utils.data.DataLoader(train_dataset(X, Y), batch_size, shuffle=True)
-    # TODO: Agregar set de test
-
+    train_loader = torch.utils.data.DataLoader(train_dataset(train_X, train_y), batch_size, shuffle=True)
+                                                # función train_dataset también debería servir para el test_loader
+    test_loader = torch.utils.data.DataLoader(train_dataset(test_X, test_y), batch_size, shuffle=True)
+    train_dataset_size = len(train_y)
+    test_dataset_size = len(test_y)
 
     # start training:
-    loss_hist = []
+    best_model_wts = copy.deepcopy(model.state_dict())
+    lowest_loss = 0.0
+
+    train_loss_hist = []
+    test_loss_hist = []
     for epoch in range(epochs):
-        best_ind = []
         for data in train_loader:
+            model.train()
+            running_loss = 0.0
             # we get the real values:
             labels = data[1].float().to(device)
             # we get the input data
             inputs = data[0].float()
             # set grads to 0: 
             optimizer.zero_grad()
-            # predicted output: 
-            # we get the prediction of the network:
-            y_pred = model.forward(inputs)
-            #y_pred = evol_q.forward(inputs)
-            # calculate loss:
-            loss = crit(y_pred, labels)
+            with torch.set_grad_enabled(True):
+                # predicted output:
+                # we get the prediction of the network:
+                y_pred = model.forward(inputs)
+                #y_pred = evol_q.forward(inputs)
+                # calculate loss:
+                loss_train = crit(y_pred, labels)
 
-            # regularizer loss:
-            if use_reg :
-                for parameter in model.parameters():
-                #for parameter in evol_q.parameters():
-                    loss += lamda*L1_reg(parameter, torch.zeros_like(parameter))
+                # regularizer loss:
+                if use_reg :
+                    for parameter in model.parameters():
+                    #for parameter in evol_q.parameters():
+                        loss_train += lamda*L1_reg(parameter, torch.zeros_like(parameter))
 
-            mse_per_ind = loss.detach().cpu().numpy()
-            loss = torch.sum(loss)
-            # calculate grads:
-            loss.backward()
+                mse_per_ind = loss_train.detach().cpu().numpy()
+                # calculate grads:
+                loss_train.backward()
 
-            # update weights:
-            optimizer.step()
-        loss_hist.append(loss)
+                # update weights:
+                optimizer.step()
+            #statistics
+            running_loss += loss_train.item() * inputs.size(0)
+        epoch_loss_train = running_loss #/ train_dataset_size
+        train_loss_hist.append(epoch_loss_train)
+        for data in test_loader:
+            model.eval()
+            running_loss = 0.0
+            # we get the real values:
+            labels = data[1].float().to(device)
+            # we get the input data
+            inputs = data[0].float()
+            # set grads to 0:
+            optimizer.zero_grad()
+            with torch.set_grad_enabled(False):
+                #predicted output:
+                # we get the prediction of the network:
+                y_pred = model.forward(inputs)
+                #y_pred = evol_q.forward(inputs)
+                # calculate loss:
+                loss_test = crit(y_pred, labels)
+
+                # regularizer loss:
+                #if use_reg :
+                #    for parameter in model.parameters():
+                #    #for parameter in evol_q.parameters():
+                #        loss_test += lamda*L1_reg(parameter, torch.zeros_like(parameter))
+
+                mse_per_ind = loss_test.detach().cpu().numpy()
+            running_loss += loss_test.item() * inputs.size(0)
+        epoch_loss_test = running_loss #/ test_dataset_size
+        test_loss_hist.append(epoch_loss_test)
         if epoch % 10 == 0:
-            print(f"For epoch={epoch} the best loss was {loss}")
-    np.save(os.path.join(os.getcwd(), 'Results', 'training_results', 'loss_{}.npy'.format(model_name[:-4])), loss_hist)
+            print('Epoch {}/{}, Train Loss: {:.4f} Test Loss: {:.4f}'.format(
+                epoch, epochs, epoch_loss_train, epoch_loss_test))
+        if epoch_loss_test < lowest_loss:
+            lowest_loss = epoch_loss_test
+            best_model_wts = copy.deepcopy(model.state_dict())
+    print('Lowest val Loss: {:4f}'.format(lowest_loss))
+    # load best model weights
+    model.load_state_dict(best_model_wts)
+    np.save(os.path.join(os.getcwd(), 'Results', 'training_results', 'loss_train_{}.npy'.format(model_name[:-4])), train_loss_hist)
+    np.save(os.path.join(os.getcwd(), 'Results', 'training_results', 'loss_test_{}.npy'.format(model_name[:-4])), test_loss_hist)
     torch.save(model.state_dict(), os.path.join(os.getcwd(), 'Results', 'training_results', 'weights_{}.pth'.format(model_name[:-4])))
     print(model.cpu().to_string())
     print(model)
