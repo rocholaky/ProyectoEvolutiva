@@ -94,8 +94,11 @@ if __name__ == '__main__':
         loss_hist.append(loss)
         if epoch % 10 == 0:
             print(f"For epoch={epoch} the best loss was {loss}")
+    np.save(os.path.join(os.getcwd(), 'Results', 'training_results', 'loss_{}.npy'.format(model_name[:-4])), loss_hist)
+    torch.save(model.state_dict(), os.path.join(os.getcwd(), 'Results', 'training_results', 'weights_{}.pth'.format(model_name[:-4])))
     print(model.cpu().to_string())
     print(model)
     #print(evol_q.cpu().to_string())
     #print(evol_q)
+    a = 1
     a=0
