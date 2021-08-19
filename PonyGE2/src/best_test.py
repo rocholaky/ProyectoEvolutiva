@@ -8,6 +8,7 @@ import pickle
 if __name__ == '__main__':
     model_name = 'nusselt_Ansys.pkl'
     dataset_name = 'nusselt_Ansys'
+    use_reg = False
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     with open(os.path.join(os.getcwd(), 'Results', 'best_nn_in_cpu', model_name), 'rb') as handle:
@@ -80,9 +81,10 @@ if __name__ == '__main__':
             loss = crit(y_pred, labels)
 
             # regularizer loss:
-            for parameter in model.parameters():
-            #for parameter in evol_q.parameters():
-                loss += lamda*L1_reg(parameter, torch.zeros_like(parameter))
+            if use_reg :
+                for parameter in model.parameters():
+                #for parameter in evol_q.parameters():
+                    loss += lamda*L1_reg(parameter, torch.zeros_like(parameter))
 
             mse_per_ind = loss.detach().cpu().numpy()
             loss = torch.sum(loss)
