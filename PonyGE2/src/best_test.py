@@ -2,10 +2,15 @@ from representation.Eql_individual.evolutionary_EQL import *
 import torch
 import os
 from representation.Eql_individual.evolutionary_EQL import *
+from utilities.fitness.get_data import get_Xy_train_test_separate
+import pickle
 
 if __name__ == '__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = torch.load(os.path.join(os.getcwd(), 'best_model_Cdrag.pkl'), map_location=device)
+    with open(os.path.join(os.getcwd(), 'Results', 'best_nn_in_cpu', 'frictionF_Ansys.pkl'), 'rb') as handle:
+        model = pickle.load(handle)
+    dataset_name = 'frictionF_Ansys'
+    #model = torch.load(os.path.join(os.getcwd(), 'best_model_Cdrag.pkl'), map_location=device)
     # Si el modelo se generó en cuda (por ejemplo en el cluster), esto sirve para
     # correrlo en el local con cpu, y en gpu igual funciona
     model.device = device
@@ -21,12 +26,18 @@ if __name__ == '__main__':
     #evol_1 = evol_eql_layer(in_features, block_list, out_features)
     #evol_2 = evol_eql_layer(out_features, b_list, 1)
     #evol_q = evol_eql_nn(in_features, [evol_1, evol_2], 1).cuda()
-    
-    func = lambda x: -x[:,0]*x[:,0] + 0.0525*x[:,0]**4.1271 + 1.5874*x[:,0]
+    train_path = os.path.join(os.path.dirname(os.getcwd()), 'datasets', dataset_name, 'Train.txt')
+    test_path = os.path.join(os.path.dirname(os.getcwd()), 'datasets', dataset_name, 'Test.txt')
+    #func = lambda x: -x[:,0]*x[:,0] + 0.0525*x[:,0]**4.1271 + 1.5874*x[:,0] # fran
     #func = lambda x: np.exp(np.square(1- x[:,0]))
-    X = np.random.uniform(0.1, 5, (1000, 2)).astype('float32')
+    train_X, train_y, test_X, test_y = get_Xy_train_test_separate(train_path, test_path)
+    train_X = np.transpose(train_X) # (num_variables, samples) --> (samples, num_variables)
+    test_X = np.transpose(test_X) # (num_variables, samples) --> (samples, num_variables)
+    #X = np.random.uniform(0.1, 5, (1000, 2)).astype('float32') # fran
     #X = np.random.uniform(-2, 2, (1000, 2)).astype('float32')
-    Y = func(X)
+    #Y = func(X) # fran
+    X = train_X
+    Y = train_y
     
     # generate the loss function:
     crit = nn.MSELoss(reduction='mean')
@@ -45,6 +56,8 @@ if __name__ == '__main__':
 
     # create train_loader:
     train_loader = torch.utils.data.DataLoader(train_dataset(X, Y), batch_size, shuffle=True)
+    # TODO: Agregar set de test
+
 
     # start training:
     loss_hist = []
