@@ -1,6 +1,6 @@
     function = lambda x: 2.0232*np.power(x[:, 0], 0.5528)
 
-n_variables: 2
+n_variables: 4
 ------------------
 input_range: [[1.3, 2.4], [1000, 11000], [0.3, 1.5], [0.6, 1.05]]
 n_points_train: 1000
