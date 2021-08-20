@@ -7,9 +7,9 @@ import pickle
 import copy
 
 if __name__ == '__main__':
-    model_name = 'NuFB.pkl'
-    dataset_name = 'Nu_FB'
-    use_reg = True
+    model_name = 'frictionF_Ansys_pond.pkl'
+    dataset_name = 'frictionF_Ansys'
+    use_reg = False
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     with open(os.path.join(os.getcwd(), 'Results', 'best_nn_in_cpu', model_name), 'rb') as handle:
@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
     # start training:
     best_model_wts = copy.deepcopy(model.state_dict())
-    lowest_loss = 0.0
+    lowest_loss = 999.0
 
     train_loss_hist = []
     test_loss_hist = []
@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 optimizer.step()
             #statistics
             running_loss += loss_train.item() * inputs.size(0)
-        epoch_loss_train = running_loss #/ train_dataset_size
+        epoch_loss_train = running_loss / train_dataset_size
         train_loss_hist.append(epoch_loss_train)
         for data in test_loader:
             model.eval()
@@ -129,7 +129,7 @@ if __name__ == '__main__':
 
                 mse_per_ind = loss_test.detach().cpu().numpy()
             running_loss += loss_test.item() * inputs.size(0)
-        epoch_loss_test = running_loss #/ test_dataset_size
+        epoch_loss_test = running_loss / test_dataset_size
         test_loss_hist.append(epoch_loss_test)
         if epoch % 10 == 0:
             print('Epoch {}/{}, Train Loss: {:.4f} Test Loss: {:.4f}'.format(

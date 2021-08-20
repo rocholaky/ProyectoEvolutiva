@@ -151,7 +151,8 @@ if __name__ == '__main__':
     n_points_test = ceil(0.3 * n_points_train)
     n_variables = 4
     # function we want to guess:
-    function = lambda x: 2.0232 * np.power(x[:, 0], 0.5528)
+    function = lambda x: 
+    2.0232 * np.power(x[:, 0], 0.5528)
     bound_list = [[1.3, 2.4],  # x values
                   [1000, 11000],
                   [0.3, 1.5],
