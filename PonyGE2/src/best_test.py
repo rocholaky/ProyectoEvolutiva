@@ -7,8 +7,8 @@ import pickle
 import copy
 
 if __name__ == '__main__':
-    model_name = 'frictionF_Ansys_pond.pkl'
-    dataset_name = 'frictionF_Ansys'
+    model_name = 'NuGT.pkl'
+    dataset_name = 'Nu_GT'
     use_reg = False
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -61,8 +61,6 @@ if __name__ == '__main__':
     train_loader = torch.utils.data.DataLoader(train_dataset(train_X, train_y), batch_size, shuffle=True)
                                                 # función train_dataset también debería servir para el test_loader
     test_loader = torch.utils.data.DataLoader(train_dataset(test_X, test_y), batch_size, shuffle=True)
-    train_dataset_size = len(train_y)
-    test_dataset_size = len(test_y)
 
     # start training:
     best_model_wts = copy.deepcopy(model.state_dict())
@@ -71,9 +69,10 @@ if __name__ == '__main__':
     train_loss_hist = []
     test_loss_hist = []
     for epoch in range(epochs):
+        model.train()
+        train_epoch_loss = []
+        test_epoch_loss = []
         for data in train_loader:
-            model.train()
-            running_loss = 0.0
             # we get the real values:
             labels = data[1].float().to(device)
             # we get the input data
@@ -101,12 +100,11 @@ if __name__ == '__main__':
                 # update weights:
                 optimizer.step()
             #statistics
-            running_loss += loss_train.item() * inputs.size(0)
-        epoch_loss_train = running_loss / train_dataset_size
+            train_epoch_loss.append(mse_per_ind)
+        epoch_loss_train = np.mean(train_epoch_loss)
         train_loss_hist.append(epoch_loss_train)
+        model.eval()
         for data in test_loader:
-            model.eval()
-            running_loss = 0.0
             # we get the real values:
             labels = data[1].float().to(device)
             # we get the input data
@@ -128,8 +126,8 @@ if __name__ == '__main__':
                 #        loss_test += lamda*L1_reg(parameter, torch.zeros_like(parameter))
 
                 mse_per_ind = loss_test.detach().cpu().numpy()
-            running_loss += loss_test.item() * inputs.size(0)
-        epoch_loss_test = running_loss / test_dataset_size
+            test_epoch_loss.append(mse_per_ind)
+        epoch_loss_test = np.mean(test_epoch_loss)
         test_loss_hist.append(epoch_loss_test)
         if epoch % 10 == 0:
             print('Epoch {}/{}, Train Loss: {:.4f} Test Loss: {:.4f}'.format(
